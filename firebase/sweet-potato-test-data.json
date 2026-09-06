@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 25.04,
+          "humidity": 78.4,
+          "soilMoisture": 48.0,
+          "soilPh": 5.62,
+          "nitrogen": 100.8,
+          "phosphorus": 42.4,
+          "potassium": 126.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 24.96,
+              "humidity": 77.6,
+              "soilMoisture": 47.0,
+              "soilPh": 5.58,
+              "nitrogen": 99.2,
+              "phosphorus": 41.6,
+              "potassium": 124.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 24.97,
+              "humidity": 77.7,
+              "soilMoisture": 47.125,
+              "soilPh": 5.585,
+              "nitrogen": 99.4,
+              "phosphorus": 41.7,
+              "potassium": 124.25,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 24.98,
+              "humidity": 77.8,
+              "soilMoisture": 47.25,
+              "soilPh": 5.59,
+              "nitrogen": 99.6,
+              "phosphorus": 41.8,
+              "potassium": 124.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 24.99,
+              "humidity": 77.9,
+              "soilMoisture": 47.375,
+              "soilPh": 5.595,
+              "nitrogen": 99.8,
+              "phosphorus": 41.9,
+              "potassium": 124.75,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 25.01,
+              "humidity": 78.1,
+              "soilMoisture": 47.625,
+              "soilPh": 5.605,
+              "nitrogen": 100.2,
+              "phosphorus": 42.1,
+              "potassium": 125.25,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 25.02,
+              "humidity": 78.2,
+              "soilMoisture": 47.75,
+              "soilPh": 5.61,
+              "nitrogen": 100.4,
+              "phosphorus": 42.2,
+              "potassium": 125.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 25.03,
+              "humidity": 78.3,
+              "soilMoisture": 47.875,
+              "soilPh": 5.615,
+              "nitrogen": 100.6,
+              "phosphorus": 42.3,
+              "potassium": 125.75,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 25.04,
+              "humidity": 78.4,
+              "soilMoisture": 48.0,
+              "soilPh": 5.62,
+              "nitrogen": 100.8,
+              "phosphorus": 42.4,
+              "potassium": 126.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "sweet-potato-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 5.5,
+        "maxSoilPh": 6.5,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Sweet Potato Test Farm",
+        "deviceName": "Sweet Potato Test Sensor",
+        "currentCrop": "Sweet Potato",
+        "cropVariety": "Common",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

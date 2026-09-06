@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 9.04,
+          "humidity": 65.2,
+          "soilMoisture": 73.0,
+          "soilPh": 6.92,
+          "nitrogen": 87.2,
+          "phosphorus": 67.6,
+          "potassium": 192.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 8.36,
+              "humidity": 64.8,
+              "soilMoisture": 72.0,
+              "soilPh": 6.88,
+              "nitrogen": 84.8,
+              "phosphorus": 66.4,
+              "potassium": 188.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 8.445,
+              "humidity": 64.85,
+              "soilMoisture": 72.125,
+              "soilPh": 6.885,
+              "nitrogen": 85.1,
+              "phosphorus": 66.55,
+              "potassium": 188.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 8.53,
+              "humidity": 64.9,
+              "soilMoisture": 72.25,
+              "soilPh": 6.89,
+              "nitrogen": 85.4,
+              "phosphorus": 66.7,
+              "potassium": 189.0,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 8.615,
+              "humidity": 64.95,
+              "soilMoisture": 72.375,
+              "soilPh": 6.895,
+              "nitrogen": 85.7,
+              "phosphorus": 66.85,
+              "potassium": 189.5,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 8.785,
+              "humidity": 65.05,
+              "soilMoisture": 72.625,
+              "soilPh": 6.905,
+              "nitrogen": 86.3,
+              "phosphorus": 67.15,
+              "potassium": 190.5,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 8.87,
+              "humidity": 65.1,
+              "soilMoisture": 72.75,
+              "soilPh": 6.91,
+              "nitrogen": 86.6,
+              "phosphorus": 67.3,
+              "potassium": 191.0,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 8.955,
+              "humidity": 65.15,
+              "soilMoisture": 72.875,
+              "soilPh": 6.915,
+              "nitrogen": 86.9,
+              "phosphorus": 67.45,
+              "potassium": 191.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 9.04,
+              "humidity": 65.2,
+              "soilMoisture": 73.0,
+              "soilPh": 6.92,
+              "nitrogen": 87.2,
+              "phosphorus": 67.6,
+              "potassium": 192.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "lettuce-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 6.0,
+        "maxSoilPh": 7.0,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Lettuce Test Farm",
+        "deviceName": "Lettuce Test Sensor",
+        "currentCrop": "Lettuce",
+        "cropVariety": "Leaf",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

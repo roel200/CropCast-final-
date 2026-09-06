@@ -1,0 +1,476 @@
+{
+  "source": "data/raw/Crop_Requirements.txt",
+  "npkUnit": "not specified by source; verify compatibility with mg/kg sensor readings",
+  "soilMoistureNote": "Provisional CropCast sensor-calibration ranges; do not treat rainfall as a conversion to soil-moisture percentage. Replace after local calibration.",
+  "lightNote": "Light is intentionally excluded from recommendation scoring because the tomato dataset reports W/m2 while CropCast reports lux.",
+  "crops": [
+    {
+      "name": "Tomato",
+      "sourceCropName": "Tomato",
+      "scientificName": "Solanum lycopersicum",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          150.0
+        ],
+        "phosphorus": [
+          50.0,
+          70.0
+        ],
+        "potassium": [
+          100.0,
+          150.0
+        ],
+        "temperatureC": [
+          18.0,
+          25.0
+        ],
+        "humidityPct": [
+          65.0,
+          75.0
+        ],
+        "soilPh": [
+          6.0,
+          6.8
+        ],
+        "rainfallMm": [
+          400.0,
+          600.0
+        ],
+        "soilMoisturePct": [
+          40.0,
+          70.0
+        ]
+      }
+    },
+    {
+      "name": "Okra",
+      "sourceCropName": "Okra",
+      "scientificName": "Abelmoschus esculentus",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          120.0
+        ],
+        "phosphorus": [
+          40.0,
+          80.0
+        ],
+        "potassium": [
+          60.0,
+          120.0
+        ],
+        "temperatureC": [
+          22.0,
+          35.0
+        ],
+        "humidityPct": [
+          50.0,
+          60.0
+        ],
+        "soilPh": [
+          6.0,
+          6.8
+        ],
+        "rainfallMm": [
+          500.0,
+          800.0
+        ],
+        "soilMoisturePct": [
+          45.0,
+          75.0
+        ]
+      }
+    },
+    {
+      "name": "Alugbati",
+      "sourceCropName": "Basella alba",
+      "scientificName": "Basella alba",
+      "ranges": {
+        "nitrogen": [
+          180.0,
+          180.0
+        ],
+        "phosphorus": [
+          90.0,
+          90.0
+        ],
+        "potassium": [
+          120.0,
+          120.0
+        ],
+        "temperatureC": [
+          25.0,
+          35.0
+        ],
+        "humidityPct": [
+          50.0,
+          70.0
+        ],
+        "soilPh": [
+          6.5,
+          7.5
+        ],
+        "rainfallMm": [
+          1000.0,
+          1200.0
+        ],
+        "soilMoisturePct": [
+          55.0,
+          85.0
+        ]
+      }
+    },
+    {
+      "name": "Potato",
+      "sourceCropName": "Potato",
+      "scientificName": "Solanum tuberosum",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          150.0
+        ],
+        "phosphorus": [
+          50.0,
+          100.0
+        ],
+        "potassium": [
+          100.0,
+          200.0
+        ],
+        "temperatureC": [
+          12.0,
+          18.0
+        ],
+        "humidityPct": [
+          80.0,
+          90.0
+        ],
+        "soilPh": [
+          4.8,
+          5.5
+        ],
+        "rainfallMm": [
+          500.0,
+          750.0
+        ],
+        "soilMoisturePct": [
+          50.0,
+          75.0
+        ]
+      }
+    },
+    {
+      "name": "Rice",
+      "sourceCropName": "Rice",
+      "scientificName": "Oryza sativa",
+      "ranges": {
+        "nitrogen": [
+          60.0,
+          100.0
+        ],
+        "phosphorus": [
+          35.0,
+          58.0
+        ],
+        "potassium": [
+          36.0,
+          44.0
+        ],
+        "temperatureC": [
+          20.0,
+          27.0
+        ],
+        "humidityPct": [
+          80.0,
+          83.0
+        ],
+        "soilPh": [
+          5.5,
+          6.8
+        ],
+        "rainfallMm": [
+          202.0,
+          291.0
+        ],
+        "soilMoisturePct": [
+          70.0,
+          95.0
+        ]
+      }
+    },
+    {
+      "name": "Corn",
+      "sourceCropName": "Corn",
+      "scientificName": "Zea mays",
+      "ranges": {
+        "nitrogen": [
+          150.0,
+          200.0
+        ],
+        "phosphorus": [
+          30.0,
+          70.0
+        ],
+        "potassium": [
+          40.0,
+          140.0
+        ],
+        "temperatureC": [
+          18.0,
+          27.0
+        ],
+        "humidityPct": [
+          65.0,
+          75.0
+        ],
+        "soilPh": [
+          5.5,
+          7.0
+        ],
+        "rainfallMm": [
+          500.0,
+          800.0
+        ],
+        "soilMoisturePct": [
+          45.0,
+          70.0
+        ]
+      }
+    },
+    {
+      "name": "Eggplant",
+      "sourceCropName": "Eggplant",
+      "scientificName": "Solanum melongena",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          120.0
+        ],
+        "phosphorus": [
+          50.0,
+          80.0
+        ],
+        "potassium": [
+          100.0,
+          150.0
+        ],
+        "temperatureC": [
+          24.0,
+          30.0
+        ],
+        "humidityPct": [
+          60.0,
+          70.0
+        ],
+        "soilPh": [
+          5.5,
+          6.5
+        ],
+        "rainfallMm": [
+          600.0,
+          800.0
+        ],
+        "soilMoisturePct": [
+          50.0,
+          75.0
+        ]
+      }
+    },
+    {
+      "name": "Cucumber",
+      "sourceCropName": "Cucumber",
+      "scientificName": "Cucumis sativus",
+      "ranges": {
+        "nitrogen": [
+          150.0,
+          200.0
+        ],
+        "phosphorus": [
+          50.0,
+          100.0
+        ],
+        "potassium": [
+          150.0,
+          200.0
+        ],
+        "temperatureC": [
+          15.0,
+          33.0
+        ],
+        "humidityPct": [
+          60.0,
+          80.0
+        ],
+        "soilPh": [
+          5.5,
+          6.8
+        ],
+        "rainfallMm": [
+          600.0,
+          800.0
+        ],
+        "soilMoisturePct": [
+          60.0,
+          85.0
+        ]
+      }
+    },
+    {
+      "name": "Cabbage",
+      "sourceCropName": "Cabbage",
+      "scientificName": "Brassica oleracea var. capitata",
+      "ranges": {
+        "nitrogen": [
+          120.0,
+          150.0
+        ],
+        "phosphorus": [
+          80.0,
+          100.0
+        ],
+        "potassium": [
+          150.0,
+          200.0
+        ],
+        "temperatureC": [
+          15.0,
+          20.0
+        ],
+        "humidityPct": [
+          60.0,
+          70.0
+        ],
+        "soilPh": [
+          6.0,
+          7.0
+        ],
+        "rainfallMm": [
+          600.0,
+          700.0
+        ],
+        "soilMoisturePct": [
+          60.0,
+          85.0
+        ]
+      }
+    },
+    {
+      "name": "Sweet Potato",
+      "sourceCropName": "Sweet Potato",
+      "scientificName": "Ipomoea batatas",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          120.0
+        ],
+        "phosphorus": [
+          40.0,
+          60.0
+        ],
+        "potassium": [
+          100.0,
+          150.0
+        ],
+        "temperatureC": [
+          24.0,
+          26.0
+        ],
+        "humidityPct": [
+          60.0,
+          80.0
+        ],
+        "soilPh": [
+          5.5,
+          6.5
+        ],
+        "rainfallMm": [
+          750.0,
+          1000.0
+        ],
+        "soilMoisturePct": [
+          45.0,
+          70.0
+        ]
+      }
+    },
+    {
+      "name": "Lettuce",
+      "sourceCropName": "Lettuce",
+      "scientificName": "Lactuca sativa",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          140.0
+        ],
+        "phosphorus": [
+          40.0,
+          70.0
+        ],
+        "potassium": [
+          100.0,
+          200.0
+        ],
+        "temperatureC": [
+          7.0,
+          24.0
+        ],
+        "humidityPct": [
+          60.0,
+          70.0
+        ],
+        "soilPh": [
+          6.0,
+          7.0
+        ],
+        "rainfallMm": [
+          600.0,
+          800.0
+        ],
+        "soilMoisturePct": [
+          60.0,
+          85.0
+        ]
+      }
+    },
+    {
+      "name": "Spinach",
+      "sourceCropName": "Spinach",
+      "scientificName": "Spinacia oleracea",
+      "ranges": {
+        "nitrogen": [
+          80.0,
+          120.0
+        ],
+        "phosphorus": [
+          40.0,
+          60.0
+        ],
+        "potassium": [
+          90.0,
+          130.0
+        ],
+        "temperatureC": [
+          6.0,
+          24.0
+        ],
+        "humidityPct": [
+          60.0,
+          70.0
+        ],
+        "soilPh": [
+          6.0,
+          7.0
+        ],
+        "rainfallMm": [
+          400.0,
+          600.0
+        ],
+        "soilMoisturePct": [
+          60.0,
+          85.0
+        ]
+      }
+    }
+  ]
+}

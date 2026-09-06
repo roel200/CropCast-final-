@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 29.52,
+          "humidity": 65.2,
+          "soilMoisture": 53.0,
+          "soilPh": 5.62,
+          "nitrogen": 100.8,
+          "phosphorus": 77.6,
+          "potassium": 146.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 29.28,
+              "humidity": 64.8,
+              "soilMoisture": 52.0,
+              "soilPh": 5.58,
+              "nitrogen": 99.2,
+              "phosphorus": 76.4,
+              "potassium": 144.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 29.31,
+              "humidity": 64.85,
+              "soilMoisture": 52.125,
+              "soilPh": 5.585,
+              "nitrogen": 99.4,
+              "phosphorus": 76.55,
+              "potassium": 144.25,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 29.34,
+              "humidity": 64.9,
+              "soilMoisture": 52.25,
+              "soilPh": 5.59,
+              "nitrogen": 99.6,
+              "phosphorus": 76.7,
+              "potassium": 144.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 29.37,
+              "humidity": 64.95,
+              "soilMoisture": 52.375,
+              "soilPh": 5.595,
+              "nitrogen": 99.8,
+              "phosphorus": 76.85,
+              "potassium": 144.75,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 29.43,
+              "humidity": 65.05,
+              "soilMoisture": 52.625,
+              "soilPh": 5.605,
+              "nitrogen": 100.2,
+              "phosphorus": 77.15,
+              "potassium": 145.25,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 29.46,
+              "humidity": 65.1,
+              "soilMoisture": 52.75,
+              "soilPh": 5.61,
+              "nitrogen": 100.4,
+              "phosphorus": 77.3,
+              "potassium": 145.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 29.49,
+              "humidity": 65.15,
+              "soilMoisture": 52.875,
+              "soilPh": 5.615,
+              "nitrogen": 100.6,
+              "phosphorus": 77.45,
+              "potassium": 145.75,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 29.52,
+              "humidity": 65.2,
+              "soilMoisture": 53.0,
+              "soilPh": 5.62,
+              "nitrogen": 100.8,
+              "phosphorus": 77.6,
+              "potassium": 146.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "eggplant-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 5.5,
+        "maxSoilPh": 6.5,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Eggplant Test Farm",
+        "deviceName": "Eggplant Test Sensor",
+        "currentCrop": "Eggplant",
+        "cropVariety": "Native",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

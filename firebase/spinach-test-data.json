@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 15.36,
+          "humidity": 65.2,
+          "soilMoisture": 73.0,
+          "soilPh": 6.52,
+          "nitrogen": 100.8,
+          "phosphorus": 50.4,
+          "potassium": 94.8,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 14.64,
+              "humidity": 64.8,
+              "soilMoisture": 72.0,
+              "soilPh": 6.48,
+              "nitrogen": 99.2,
+              "phosphorus": 49.6,
+              "potassium": 93.2,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 14.73,
+              "humidity": 64.85,
+              "soilMoisture": 72.125,
+              "soilPh": 6.485,
+              "nitrogen": 99.4,
+              "phosphorus": 49.7,
+              "potassium": 93.4,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 14.82,
+              "humidity": 64.9,
+              "soilMoisture": 72.25,
+              "soilPh": 6.49,
+              "nitrogen": 99.6,
+              "phosphorus": 49.8,
+              "potassium": 93.6,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 14.91,
+              "humidity": 64.95,
+              "soilMoisture": 72.375,
+              "soilPh": 6.495,
+              "nitrogen": 99.8,
+              "phosphorus": 49.9,
+              "potassium": 93.8,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 15.09,
+              "humidity": 65.05,
+              "soilMoisture": 72.625,
+              "soilPh": 6.505,
+              "nitrogen": 100.2,
+              "phosphorus": 50.1,
+              "potassium": 94.2,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 15.18,
+              "humidity": 65.1,
+              "soilMoisture": 72.75,
+              "soilPh": 6.51,
+              "nitrogen": 100.4,
+              "phosphorus": 50.2,
+              "potassium": 94.4,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 15.27,
+              "humidity": 65.15,
+              "soilMoisture": 72.875,
+              "soilPh": 6.515,
+              "nitrogen": 100.6,
+              "phosphorus": 50.3,
+              "potassium": 94.6,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 15.36,
+              "humidity": 65.2,
+              "soilMoisture": 73.0,
+              "soilPh": 6.52,
+              "nitrogen": 100.8,
+              "phosphorus": 50.4,
+              "potassium": 94.8,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "spinach-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 6.0,
+        "maxSoilPh": 7.0,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Spinach Test Farm",
+        "deviceName": "Spinach Test Sensor",
+        "currentCrop": "Spinach",
+        "cropVariety": "Leaf",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

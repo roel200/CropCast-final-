@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 22.68,
+          "humidity": 74.2,
+          "soilMoisture": 48.0,
+          "soilPh": 6.88,
+          "nitrogen": 196.0,
+          "phosphorus": 34.8,
+          "potassium": 52.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 22.32,
+              "humidity": 73.8,
+              "soilMoisture": 47.0,
+              "soilPh": 6.82,
+              "nitrogen": 194.0,
+              "phosphorus": 33.2,
+              "potassium": 48.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 22.365,
+              "humidity": 73.85,
+              "soilMoisture": 47.125,
+              "soilPh": 6.827,
+              "nitrogen": 194.25,
+              "phosphorus": 33.4,
+              "potassium": 48.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 22.41,
+              "humidity": 73.9,
+              "soilMoisture": 47.25,
+              "soilPh": 6.835,
+              "nitrogen": 194.5,
+              "phosphorus": 33.6,
+              "potassium": 49.0,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 22.455,
+              "humidity": 73.95,
+              "soilMoisture": 47.375,
+              "soilPh": 6.842,
+              "nitrogen": 194.75,
+              "phosphorus": 33.8,
+              "potassium": 49.5,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 22.545,
+              "humidity": 74.05,
+              "soilMoisture": 47.625,
+              "soilPh": 6.857,
+              "nitrogen": 195.25,
+              "phosphorus": 34.2,
+              "potassium": 50.5,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 22.59,
+              "humidity": 74.1,
+              "soilMoisture": 47.75,
+              "soilPh": 6.865,
+              "nitrogen": 195.5,
+              "phosphorus": 34.4,
+              "potassium": 51.0,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 22.635,
+              "humidity": 74.15,
+              "soilMoisture": 47.875,
+              "soilPh": 6.872,
+              "nitrogen": 195.75,
+              "phosphorus": 34.6,
+              "potassium": 51.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 22.68,
+              "humidity": 74.2,
+              "soilMoisture": 48.0,
+              "soilPh": 6.88,
+              "nitrogen": 196.0,
+              "phosphorus": 34.8,
+              "potassium": 52.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "corn-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 5.5,
+        "maxSoilPh": 7.0,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Corn Test Farm",
+        "deviceName": "Corn Test Sensor",
+        "currentCrop": "Corn",
+        "cropVariety": "Yellow",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

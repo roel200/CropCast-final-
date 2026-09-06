@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.CropCast" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/cropcast_background</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="Theme.CropCast.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/cropcast_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/cropcast_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.CropCast</item>
+    </style>
+</resources>

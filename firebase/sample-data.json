@@ -1,0 +1,85 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 28.4,
+          "humidity": 74,
+          "soilMoisture": 62,
+          "soilPh": 6.2,
+          "nitrogen": 45,
+          "phosphorus": 38,
+          "potassium": 52,
+          "lightIntensity": 680,
+          "timestamp": 1787677200000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-23_17-00-00": {
+              "temperature": 27.8,
+              "humidity": 76,
+              "soilMoisture": 64,
+              "soilPh": 6.1,
+              "nitrogen": 44,
+              "phosphorus": 37,
+              "potassium": 50,
+              "lightIntensity": 640,
+              "timestamp": 1787504400000
+            },
+            "2026-08-24_17-00-00": {
+              "temperature": 28.1,
+              "humidity": 73,
+              "soilMoisture": 61,
+              "soilPh": 6.2,
+              "nitrogen": 45,
+              "phosphorus": 38,
+              "potassium": 51,
+              "lightIntensity": 675,
+              "timestamp": 1787590800000
+            },
+            "2026-08-25_17-00-00": {
+              "temperature": 28.4,
+              "humidity": 74,
+              "soilMoisture": 62,
+              "soilPh": 6.2,
+              "nitrogen": 45,
+              "phosphorus": 38,
+              "potassium": 52,
+              "lightIntensity": 680,
+              "timestamp": 1787677200000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1787677200000,
+        "firmware": "1.0.0",
+        "sensors": ["ESP32", "DHT11", "NPK", "pH", "LUX"]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 5.5,
+        "maxSoilPh": 7.5,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "My Farm",
+        "deviceName": "Field Sensor 01",
+        "currentCrop": "Rice",
+        "cropVariety": "IR64",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": false
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

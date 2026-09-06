@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "155556421068",
+    "firebase_url": "https://cropcast-84fb5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cropcast-84fb5",
+    "storage_bucket": "cropcast-84fb5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155556421068:android:28257b039ae531a34a1169",
+        "android_client_info": {
+          "package_name": "com.cropcast.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeNh394iQzZSYOkvNm7G1bJoMgnuXL89k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 21.64,
+          "humidity": 74.2,
+          "soilMoisture": 43.6,
+          "soilPh": 6.416,
+          "nitrogen": 88.4,
+          "phosphorus": 60.4,
+          "potassium": 126.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682700000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-58-20": {
+              "temperature": 21.36,
+              "humidity": 73.8,
+              "soilMoisture": 42.4,
+              "soilPh": 6.384,
+              "nitrogen": 85.6,
+              "phosphorus": 59.6,
+              "potassium": 124.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785657500000
+            },
+            "2026-08-02_08-58-20": {
+              "temperature": 21.395,
+              "humidity": 73.85,
+              "soilMoisture": 42.55,
+              "soilPh": 6.388,
+              "nitrogen": 85.95,
+              "phosphorus": 59.7,
+              "potassium": 124.25,
+              "lightIntensity": 575.0,
+              "timestamp": 1785661100000
+            },
+            "2026-08-02_09-58-20": {
+              "temperature": 21.43,
+              "humidity": 73.9,
+              "soilMoisture": 42.7,
+              "soilPh": 6.392,
+              "nitrogen": 86.3,
+              "phosphorus": 59.8,
+              "potassium": 124.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664700000
+            },
+            "2026-08-02_10-58-20": {
+              "temperature": 21.465,
+              "humidity": 73.95,
+              "soilMoisture": 42.85,
+              "soilPh": 6.396,
+              "nitrogen": 86.65,
+              "phosphorus": 59.9,
+              "potassium": 124.75,
+              "lightIntensity": 625.0,
+              "timestamp": 1785668300000
+            },
+            "2026-08-02_11-58-20": {
+              "temperature": 21.535,
+              "humidity": 74.05,
+              "soilMoisture": 43.15,
+              "soilPh": 6.404,
+              "nitrogen": 87.35,
+              "phosphorus": 60.1,
+              "potassium": 125.25,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671900000
+            },
+            "2026-08-02_12-58-20": {
+              "temperature": 21.57,
+              "humidity": 74.1,
+              "soilMoisture": 43.3,
+              "soilPh": 6.408,
+              "nitrogen": 87.7,
+              "phosphorus": 60.2,
+              "potassium": 125.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785675500000
+            },
+            "2026-08-02_13-58-20": {
+              "temperature": 21.605,
+              "humidity": 74.15,
+              "soilMoisture": 43.45,
+              "soilPh": 6.412,
+              "nitrogen": 88.05,
+              "phosphorus": 60.3,
+              "potassium": 125.75,
+              "lightIntensity": 600.0,
+              "timestamp": 1785679100000
+            },
+            "2026-08-02_14-58-20": {
+              "temperature": 21.64,
+              "humidity": 74.2,
+              "soilMoisture": 43.6,
+              "soilPh": 6.416,
+              "nitrogen": 88.4,
+              "phosphorus": 60.4,
+              "potassium": 126.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682700000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682700000,
+        "firmware": "tomato-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 6.0,
+        "maxSoilPh": 6.8,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Tomato Test Farm",
+        "deviceName": "Tomato Test Sensor",
+        "currentCrop": "Tomato",
+        "cropVariety": "Roma",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

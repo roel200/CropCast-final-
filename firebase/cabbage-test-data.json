@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 17.6,
+          "humidity": 65.2,
+          "soilMoisture": 73.0,
+          "soilPh": 6.92,
+          "nitrogen": 123.6,
+          "phosphorus": 90.4,
+          "potassium": 176.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 17.4,
+              "humidity": 64.8,
+              "soilMoisture": 72.0,
+              "soilPh": 6.88,
+              "nitrogen": 122.4,
+              "phosphorus": 89.6,
+              "potassium": 174.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 17.425,
+              "humidity": 64.85,
+              "soilMoisture": 72.125,
+              "soilPh": 6.885,
+              "nitrogen": 122.55,
+              "phosphorus": 89.7,
+              "potassium": 174.25,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 17.45,
+              "humidity": 64.9,
+              "soilMoisture": 72.25,
+              "soilPh": 6.89,
+              "nitrogen": 122.7,
+              "phosphorus": 89.8,
+              "potassium": 174.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 17.475,
+              "humidity": 64.95,
+              "soilMoisture": 72.375,
+              "soilPh": 6.895,
+              "nitrogen": 122.85,
+              "phosphorus": 89.9,
+              "potassium": 174.75,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 17.525,
+              "humidity": 65.05,
+              "soilMoisture": 72.625,
+              "soilPh": 6.905,
+              "nitrogen": 123.15,
+              "phosphorus": 90.1,
+              "potassium": 175.25,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 17.55,
+              "humidity": 65.1,
+              "soilMoisture": 72.75,
+              "soilPh": 6.91,
+              "nitrogen": 123.3,
+              "phosphorus": 90.2,
+              "potassium": 175.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 17.575,
+              "humidity": 65.15,
+              "soilMoisture": 72.875,
+              "soilPh": 6.915,
+              "nitrogen": 123.45,
+              "phosphorus": 90.3,
+              "potassium": 175.75,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 17.6,
+              "humidity": 65.2,
+              "soilMoisture": 73.0,
+              "soilPh": 6.92,
+              "nitrogen": 123.6,
+              "phosphorus": 90.4,
+              "potassium": 176.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "cabbage-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 6.0,
+        "maxSoilPh": 7.0,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Cabbage Test Farm",
+        "deviceName": "Cabbage Test Sensor",
+        "currentCrop": "Cabbage",
+        "cropVariety": "Green",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

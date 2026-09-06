@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 34.2,
+          "humidity": 52.4,
+          "soilMoisture": 58.6,
+          "soilPh": 7.42,
+          "nitrogen": 180.0,
+          "phosphorus": 90.0,
+          "potassium": 120.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 33.8,
+              "humidity": 51.6,
+              "soilMoisture": 57.4,
+              "soilPh": 7.38,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 33.85,
+              "humidity": 51.7,
+              "soilMoisture": 57.55,
+              "soilPh": 7.385,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 33.9,
+              "humidity": 51.8,
+              "soilMoisture": 57.7,
+              "soilPh": 7.39,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 33.95,
+              "humidity": 51.9,
+              "soilMoisture": 57.85,
+              "soilPh": 7.395,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 34.05,
+              "humidity": 52.1,
+              "soilMoisture": 58.15,
+              "soilPh": 7.405,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 34.1,
+              "humidity": 52.2,
+              "soilMoisture": 58.3,
+              "soilPh": 7.41,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 34.15,
+              "humidity": 52.3,
+              "soilMoisture": 58.45,
+              "soilPh": 7.415,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 34.2,
+              "humidity": 52.4,
+              "soilMoisture": 58.6,
+              "soilPh": 7.42,
+              "nitrogen": 180.0,
+              "phosphorus": 90.0,
+              "potassium": 120.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "alugbati-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 6.5,
+        "maxSoilPh": 7.5,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Alugbati Test Farm",
+        "deviceName": "Alugbati Test Sensor",
+        "currentCrop": "Alugbati",
+        "cropVariety": "Green stem",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

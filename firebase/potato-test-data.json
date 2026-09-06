@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 12.72,
+          "humidity": 89.2,
+          "soilMoisture": 53.0,
+          "soilPh": 4.884,
+          "nitrogen": 88.4,
+          "phosphorus": 96.0,
+          "potassium": 112.0,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 12.48,
+              "humidity": 88.8,
+              "soilMoisture": 52.0,
+              "soilPh": 4.856,
+              "nitrogen": 85.6,
+              "phosphorus": 94.0,
+              "potassium": 108.0,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 12.51,
+              "humidity": 88.85,
+              "soilMoisture": 52.125,
+              "soilPh": 4.859,
+              "nitrogen": 85.95,
+              "phosphorus": 94.25,
+              "potassium": 108.5,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 12.54,
+              "humidity": 88.9,
+              "soilMoisture": 52.25,
+              "soilPh": 4.863,
+              "nitrogen": 86.3,
+              "phosphorus": 94.5,
+              "potassium": 109.0,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 12.57,
+              "humidity": 88.95,
+              "soilMoisture": 52.375,
+              "soilPh": 4.867,
+              "nitrogen": 86.65,
+              "phosphorus": 94.75,
+              "potassium": 109.5,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 12.63,
+              "humidity": 89.05,
+              "soilMoisture": 52.625,
+              "soilPh": 4.873,
+              "nitrogen": 87.35,
+              "phosphorus": 95.25,
+              "potassium": 110.5,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 12.66,
+              "humidity": 89.1,
+              "soilMoisture": 52.75,
+              "soilPh": 4.877,
+              "nitrogen": 87.7,
+              "phosphorus": 95.5,
+              "potassium": 111.0,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 12.69,
+              "humidity": 89.15,
+              "soilMoisture": 52.875,
+              "soilPh": 4.881,
+              "nitrogen": 88.05,
+              "phosphorus": 95.75,
+              "potassium": 111.5,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 12.72,
+              "humidity": 89.2,
+              "soilMoisture": 53.0,
+              "soilPh": 4.884,
+              "nitrogen": 88.4,
+              "phosphorus": 96.0,
+              "potassium": 112.0,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "potato-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 4.8,
+        "maxSoilPh": 5.5,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Potato Test Farm",
+        "deviceName": "Potato Test Sensor",
+        "currentCrop": "Potato",
+        "cropVariety": "Common",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}

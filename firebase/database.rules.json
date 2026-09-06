@@ -1,0 +1,84 @@
+{
+  "rules": {
+    "devices": {
+      "$deviceId": {
+        ".read": "auth != null",
+        "readings": {
+          ".write": "auth != null",
+          "current": {
+            ".validate": "newData.hasChildren(['temperature','humidity','soilMoisture','soilPh','nitrogen','phosphorus','potassium','lightIntensity','timestamp'])",
+            "temperature": { ".validate": "newData.isNumber() && newData.val() >= -20 && newData.val() <= 80" },
+            "humidity": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100" },
+            "soilMoisture": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100" },
+            "soilPh": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 14" },
+            "nitrogen": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+            "phosphorus": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+            "potassium": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+            "lightIntensity": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+            "timestamp": { ".validate": "newData.isNumber()" }
+          },
+          "monthly": {
+            "$month": {
+              ".indexOn": ["timestamp"],
+              "$readingId": {
+                ".validate": "newData.hasChildren(['temperature','humidity','soilMoisture','soilPh','nitrogen','phosphorus','potassium','lightIntensity','timestamp'])",
+                "temperature": { ".validate": "newData.isNumber() && newData.val() >= -20 && newData.val() <= 80" },
+                "humidity": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100" },
+                "soilMoisture": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100" },
+                "soilPh": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 14" },
+                "nitrogen": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+                "phosphorus": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+                "potassium": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+                "lightIntensity": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+                "timestamp": { ".validate": "newData.isNumber()" }
+              }
+            }
+          },
+          "feedback": {
+            "$feedbackId": {
+              ".validate": "newData.hasChildren(['id','monthKey','recommendedCrop','plantedCrop','harvestedKg','rating','problems','submittedAt']) && newData.child('id').val() == $feedbackId && newData.child('monthKey').isString() && newData.child('recommendedCrop').isString() && newData.child('plantedCrop').isString() && newData.child('harvestedKg').isNumber() && newData.child('harvestedKg').val() >= 0 && newData.child('rating').isNumber() && newData.child('rating').val() >= 1 && newData.child('rating').val() <= 5 && newData.child('problems').isString() && newData.child('submittedAt').isNumber() && newData.child('submittedAt').val() > 0"
+            }
+          }
+        },
+        "recommendations": {
+          ".write": "auth != null",
+          "monthly": {
+            "$month": {
+              "observed": {
+                ".validate": "newData.hasChildren(['monthKey','cropName','score','sampleCount','basedOnMonths','recommendationType','confidenceLabel','generatedAt','algorithmVersion']) && newData.child('monthKey').val() == $month && newData.child('recommendationType').val() == 'observed_month' && newData.child('cropName').isString() && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 100 && newData.child('sampleCount').isNumber() && newData.child('sampleCount').val() >= 0 && newData.child('generatedAt').isNumber() && newData.child('algorithmVersion').isString()"
+              },
+              "forecast": {
+                ".validate": "newData.hasChildren(['monthKey','cropName','score','sampleCount','basedOnMonths','recommendationType','confidenceLabel','generatedAt','algorithmVersion']) && newData.child('monthKey').val() == $month && newData.child('recommendationType').val() == 'next_month_forecast' && newData.child('cropName').isString() && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 100 && newData.child('sampleCount').isNumber() && newData.child('sampleCount').val() >= 0 && newData.child('generatedAt').isNumber() && newData.child('algorithmVersion').isString()"
+              }
+            }
+          }
+        },
+        "status": { ".write": "auth != null" },
+        "commands": { ".write": "auth != null" },
+        "settings": {
+          ".write": "auth != null",
+          "enabled": { ".validate": "newData.isBoolean()" },
+          "lowMoistureAlertEnabled": { ".validate": "newData.isBoolean()" },
+          "soilMoistureThreshold": { ".validate": "newData.isNumber() && newData.val() >= 10 && newData.val() <= 80" },
+          "highTemperatureThreshold": { ".validate": "newData.isNumber() && newData.val() >= 20 && newData.val() <= 60" },
+          "minSoilPh": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 14" },
+          "maxSoilPh": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 14" },
+          "deviceOfflineMinutes": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 60" },
+          "repeatIntervalMinutes": { ".validate": "newData.isNumber() && newData.val() >= 5 && newData.val() <= 240" },
+          "soundEnabled": { ".validate": "newData.isBoolean()" },
+          "vibrationEnabled": { ".validate": "newData.isBoolean()" },
+          "darkModeEnabled": { ".validate": "newData.isBoolean()" },
+          "cloudHistoryEnabled": { ".validate": "newData.isBoolean()" },
+          "diagnosticsEnabled": { ".validate": "newData.isBoolean()" }
+        },
+        "alerts": { ".write": "auth != null" }
+      }
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid"
+      }
+    }
+  }
+}

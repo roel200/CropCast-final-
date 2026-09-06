@@ -1,0 +1,147 @@
+{
+  "devices": {
+    "esp32-field-01": {
+      "readings": {
+        "current": {
+          "temperature": 33.96,
+          "humidity": 51.2,
+          "soilMoisture": 48.6,
+          "soilPh": 6.736,
+          "nitrogen": 100.8,
+          "phosphorus": 76.8,
+          "potassium": 67.2,
+          "lightIntensity": 625.0,
+          "timestamp": 1785682199000
+        },
+        "monthly": {
+          "2026-08": {
+            "2026-08-02_07-49-59": {
+              "temperature": 33.44,
+              "humidity": 50.8,
+              "soilMoisture": 47.4,
+              "soilPh": 6.704,
+              "nitrogen": 99.2,
+              "phosphorus": 75.2,
+              "potassium": 64.8,
+              "lightIntensity": 550.0,
+              "timestamp": 1785656999000
+            },
+            "2026-08-02_08-49-59": {
+              "temperature": 33.505,
+              "humidity": 50.85,
+              "soilMoisture": 47.55,
+              "soilPh": 6.708,
+              "nitrogen": 99.4,
+              "phosphorus": 75.4,
+              "potassium": 65.1,
+              "lightIntensity": 575.0,
+              "timestamp": 1785660599000
+            },
+            "2026-08-02_09-49-59": {
+              "temperature": 33.57,
+              "humidity": 50.9,
+              "soilMoisture": 47.7,
+              "soilPh": 6.712,
+              "nitrogen": 99.6,
+              "phosphorus": 75.6,
+              "potassium": 65.4,
+              "lightIntensity": 600.0,
+              "timestamp": 1785664199000
+            },
+            "2026-08-02_10-49-59": {
+              "temperature": 33.635,
+              "humidity": 50.95,
+              "soilMoisture": 47.85,
+              "soilPh": 6.716,
+              "nitrogen": 99.8,
+              "phosphorus": 75.8,
+              "potassium": 65.7,
+              "lightIntensity": 625.0,
+              "timestamp": 1785667799000
+            },
+            "2026-08-02_11-49-59": {
+              "temperature": 33.765,
+              "humidity": 51.05,
+              "soilMoisture": 48.15,
+              "soilPh": 6.724,
+              "nitrogen": 100.2,
+              "phosphorus": 76.2,
+              "potassium": 66.3,
+              "lightIntensity": 550.0,
+              "timestamp": 1785671399000
+            },
+            "2026-08-02_12-49-59": {
+              "temperature": 33.83,
+              "humidity": 51.1,
+              "soilMoisture": 48.3,
+              "soilPh": 6.728,
+              "nitrogen": 100.4,
+              "phosphorus": 76.4,
+              "potassium": 66.6,
+              "lightIntensity": 575.0,
+              "timestamp": 1785674999000
+            },
+            "2026-08-02_13-49-59": {
+              "temperature": 33.895,
+              "humidity": 51.15,
+              "soilMoisture": 48.45,
+              "soilPh": 6.732,
+              "nitrogen": 100.6,
+              "phosphorus": 76.6,
+              "potassium": 66.9,
+              "lightIntensity": 600.0,
+              "timestamp": 1785678599000
+            },
+            "2026-08-02_14-49-59": {
+              "temperature": 33.96,
+              "humidity": 51.2,
+              "soilMoisture": 48.6,
+              "soilPh": 6.736,
+              "nitrogen": 100.8,
+              "phosphorus": 76.8,
+              "potassium": 67.2,
+              "lightIntensity": 625.0,
+              "timestamp": 1785682199000
+            }
+          }
+        }
+      },
+      "status": {
+        "online": true,
+        "lastSeen": 1785682199000,
+        "firmware": "okra-test-fixture",
+        "sensors": [
+          "ESP32",
+          "DHT11",
+          "NPK",
+          "pH",
+          "MOISTURE",
+          "LUX"
+        ]
+      },
+      "settings": {
+        "enabled": true,
+        "lowMoistureAlertEnabled": true,
+        "soilMoistureThreshold": 40,
+        "highTemperatureThreshold": 35,
+        "minSoilPh": 6.0,
+        "maxSoilPh": 6.8,
+        "deviceOfflineMinutes": 2,
+        "repeatIntervalMinutes": 30,
+        "soundEnabled": true,
+        "vibrationEnabled": true,
+        "farmName": "Okra Test Farm",
+        "deviceName": "Okra Test Sensor",
+        "currentCrop": "Okra",
+        "cropVariety": "Native",
+        "plantingDate": "",
+        "language": "English",
+        "darkModeEnabled": false,
+        "cloudHistoryEnabled": true,
+        "diagnosticsEnabled": true
+      },
+      "commands": {},
+      "alerts": {}
+    }
+  }
+}
