@@ -33,6 +33,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,6 +54,12 @@ import com.cropcast.app.ui.screens.SensorDashboardScreen
 import com.cropcast.app.ui.screens.SettingsScreen
 import com.cropcast.app.ui.screens.LoginScreen
 import com.cropcast.app.R
+import com.cropcast.app.data.PublicCropModelEngine
+import com.cropcast.app.data.PublicCropRecommendationResult
+import com.cropcast.app.data.RainfallState
+import com.cropcast.app.data.RainfallStatus
+import com.cropcast.app.data.SeedRecommendationEngine
+import com.cropcast.app.data.WeatherRainfallRepository
 import com.cropcast.app.ui.theme.CropGreen
 import com.cropcast.app.ui.theme.CropCastTheme
 import com.cropcast.app.ui.localization.LocalCropCastLanguage
@@ -62,6 +70,74 @@ private data class NavItem(val label: String, val icon: ImageVector)
 @Composable
 fun CropCastApp(viewModel: CropCastViewModel) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val publicCropModel = remember(context) {
+        runCatching {
+            context.assets.open(PublicCropModelEngine.ASSET_NAME).use(PublicCropModelEngine::load)
+        }.getOrNull()
+    }
+    val rainfallCropModel = remember(context) {
+        runCatching {
+            context.assets.open(PublicCropModelEngine.RAINFALL_ASSET_NAME).use(PublicCropModelEngine::load)
+        }.getOrNull()
+    }
+    val weatherRepository = remember { WeatherRainfallRepository() }
+    val hasEnoughReadings = state.monthlySummary.sampleCount >= SeedRecommendationEngine.MIN_MONTHLY_SAMPLES
+    val coordinates = remember(state.settings.farmLatitude, state.settings.farmLongitude) {
+        WeatherRainfallRepository.parseCoordinates(
+            state.settings.farmLatitude,
+            state.settings.farmLongitude
+        )
+    }
+    val rainfallState by produceState(
+        initialValue = RainfallState(),
+        hasEnoughReadings,
+        coordinates,
+        state.monthlySummary.lastReadingAt
+    ) {
+        if (!hasEnoughReadings || coordinates == null) {
+            value = RainfallState(status = RainfallStatus.NOT_CONFIGURED)
+        } else {
+            value = RainfallState(status = RainfallStatus.LOADING)
+            value = runCatching {
+                weatherRepository.loadRecentRainfall(
+                    latitude = coordinates.first,
+                    longitude = coordinates.second,
+                    latestReadingAt = state.monthlySummary.lastReadingAt
+                )
+            }.fold(
+                onSuccess = { RainfallState(RainfallStatus.AVAILABLE, estimate = it) },
+                onFailure = {
+                    RainfallState(
+                        status = RainfallStatus.UNAVAILABLE,
+                        message = it.message ?: "Weather rainfall is unavailable"
+                    )
+                }
+            )
+        }
+    }
+    val publicRecommendation = remember(
+        publicCropModel,
+        rainfallCropModel,
+        rainfallState,
+        state.monthlySummary,
+        hasEnoughReadings
+    ) {
+        if (!hasEnoughReadings) {
+            null
+        } else {
+            val rainfall = rainfallState.estimate
+            val selectedModel = if (rainfall != null && rainfallCropModel != null) {
+                rainfallCropModel
+            } else {
+                publicCropModel
+            }
+            selectedModel?.evaluate(
+                reading = state.monthlySummary.average,
+                rainfallMm = rainfall?.millimeters
+            )
+        }
+    }
     var selected by remember { mutableIntStateOf(0) }
     var showSettings by remember { mutableStateOf(false) }
     CropCastTheme(darkTheme = state.settings.darkModeEnabled) {
@@ -72,6 +148,7 @@ fun CropCastApp(viewModel: CropCastViewModel) {
             isDemo = state.isDemo,
             message = state.message,
             onLogin = viewModel::login,
+            onGoogleLogin = viewModel::loginWithGoogle,
             onContinueAsGuest = viewModel::continueAsGuest,
             onMessageShown = viewModel::clearMessage
         )
@@ -132,14 +209,31 @@ fun CropCastApp(viewModel: CropCastViewModel) {
                 when (selected) {
                     0 -> HomeScreen(
                         state = state,
+                        publicRecommendation = publicRecommendation,
+                        publicModelAvailable = publicCropModel != null || rainfallCropModel != null,
                         onOpenRecommendations = { selected = 1 },
                         onOpenSensors = { selected = 2 }
                     )
                     1 -> SeedsScreen(
-                        nextMonthRecommendation = state.nextMonthRecommendation,
                         monthlySummary = state.monthlySummary,
-                        monthlyRecommendations = state.monthlyRecommendations,
-                        forecastHistory = state.forecastHistory
+                        publicRecommendation = publicRecommendation,
+                        rainfallState = rainfallState,
+                        publicModelAvailable = publicCropModel != null || rainfallCropModel != null,
+                        outcomeCount = state.outcomeFeedback.size,
+                        onSaveOutcome = { plantedCrop, harvestedKg, rating, problems ->
+                            val prediction = publicRecommendation?.predictions?.firstOrNull()
+                                ?: return@SeedsScreen
+                            viewModel.saveCropOutcome(
+                                recommendedCrop = prediction.cropName,
+                                recommendationScore = prediction.modelScore,
+                                plantedCrop = plantedCrop,
+                                harvestedKg = harvestedKg,
+                                rating = rating,
+                                problems = problems,
+                                rainfall = rainfallState.estimate,
+                                modelUsesRainfall = publicRecommendation.usesRainfall
+                            )
+                        }
                     )
                     else -> SensorDashboardScreen(state)
                 }

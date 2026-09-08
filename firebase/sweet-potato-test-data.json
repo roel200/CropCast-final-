@@ -11,11 +11,11 @@
           "phosphorus": 42.4,
           "potassium": 126.0,
           "lightIntensity": 625.0,
-          "timestamp": 1785682199000
+          "timestamp": 1786073838000
         },
         "monthly": {
           "2026-08": {
-            "2026-08-02_07-49-59": {
+            "2026-08-06_20-37-18": {
               "temperature": 24.96,
               "humidity": 77.6,
               "soilMoisture": 47.0,
@@ -24,9 +24,9 @@
               "phosphorus": 41.6,
               "potassium": 124.0,
               "lightIntensity": 550.0,
-              "timestamp": 1785656999000
+              "timestamp": 1786048638000
             },
-            "2026-08-02_08-49-59": {
+            "2026-08-06_21-37-18": {
               "temperature": 24.97,
               "humidity": 77.7,
               "soilMoisture": 47.125,
@@ -35,9 +35,9 @@
               "phosphorus": 41.7,
               "potassium": 124.25,
               "lightIntensity": 575.0,
-              "timestamp": 1785660599000
+              "timestamp": 1786052238000
             },
-            "2026-08-02_09-49-59": {
+            "2026-08-06_22-37-18": {
               "temperature": 24.98,
               "humidity": 77.8,
               "soilMoisture": 47.25,
@@ -46,9 +46,9 @@
               "phosphorus": 41.8,
               "potassium": 124.5,
               "lightIntensity": 600.0,
-              "timestamp": 1785664199000
+              "timestamp": 1786055838000
             },
-            "2026-08-02_10-49-59": {
+            "2026-08-06_23-37-18": {
               "temperature": 24.99,
               "humidity": 77.9,
               "soilMoisture": 47.375,
@@ -57,9 +57,9 @@
               "phosphorus": 41.9,
               "potassium": 124.75,
               "lightIntensity": 625.0,
-              "timestamp": 1785667799000
+              "timestamp": 1786059438000
             },
-            "2026-08-02_11-49-59": {
+            "2026-08-07_00-37-18": {
               "temperature": 25.01,
               "humidity": 78.1,
               "soilMoisture": 47.625,
@@ -68,9 +68,9 @@
               "phosphorus": 42.1,
               "potassium": 125.25,
               "lightIntensity": 550.0,
-              "timestamp": 1785671399000
+              "timestamp": 1786063038000
             },
-            "2026-08-02_12-49-59": {
+            "2026-08-07_01-37-18": {
               "temperature": 25.02,
               "humidity": 78.2,
               "soilMoisture": 47.75,
@@ -79,9 +79,9 @@
               "phosphorus": 42.2,
               "potassium": 125.5,
               "lightIntensity": 575.0,
-              "timestamp": 1785674999000
+              "timestamp": 1786066638000
             },
-            "2026-08-02_13-49-59": {
+            "2026-08-07_02-37-18": {
               "temperature": 25.03,
               "humidity": 78.3,
               "soilMoisture": 47.875,
@@ -90,9 +90,9 @@
               "phosphorus": 42.3,
               "potassium": 125.75,
               "lightIntensity": 600.0,
-              "timestamp": 1785678599000
+              "timestamp": 1786070238000
             },
-            "2026-08-02_14-49-59": {
+            "2026-08-07_03-37-18": {
               "temperature": 25.04,
               "humidity": 78.4,
               "soilMoisture": 48.0,
@@ -101,14 +101,14 @@
               "phosphorus": 42.4,
               "potassium": 126.0,
               "lightIntensity": 625.0,
-              "timestamp": 1785682199000
+              "timestamp": 1786073838000
             }
           }
         }
       },
       "status": {
         "online": true,
-        "lastSeen": 1785682199000,
+        "lastSeen": 1786073838000,
         "firmware": "sweet-potato-test-fixture",
         "sensors": [
           "ESP32",

@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cropcast.app.R
+import com.cropcast.app.data.PublicCropRecommendationResult
+import com.cropcast.app.data.PublicCropResultStatus
 import com.cropcast.app.data.SeedRecommendationEngine
 import com.cropcast.app.data.model.AlertEvent
 import com.cropcast.app.data.model.MonthlyCropRecommendation
@@ -48,6 +50,8 @@ import java.util.Date
 @Composable
 fun HomeScreen(
     state: CropCastUiState,
+    publicRecommendation: PublicCropRecommendationResult?,
+    publicModelAvailable: Boolean,
     onOpenRecommendations: () -> Unit,
     onOpenSensors: () -> Unit
 ) {
@@ -58,8 +62,16 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item { FarmOverviewCard(state) }
-        item { SectionTitle("🌱", tr("Next month recommendation")) }
-        item { RecommendationPreviewCard(state.nextMonthRecommendation, onOpenRecommendations) }
+        item { SectionTitle("🤖", tr("ML crop recommendation")) }
+        item {
+            RecommendationPreviewCard(
+                recommendation = publicRecommendation,
+                sampleCount = state.monthlySummary.sampleCount,
+                monthKey = state.monthlySummary.monthKey,
+                modelAvailable = publicModelAvailable,
+                onOpenRecommendations = onOpenRecommendations
+            )
+        }
         item { SectionTitle("📊", tr("Current Conditions")) }
         item { KeyConditionsGrid(state) }
         item { SectionTitle("📅", tr("Monthly data readiness")) }
@@ -124,17 +136,30 @@ private fun FarmOverviewCard(state: CropCastUiState) {
 
 @Composable
 private fun RecommendationPreviewCard(
-    recommendation: MonthlyCropRecommendation?,
+    recommendation: PublicCropRecommendationResult?,
+    sampleCount: Int,
+    monthKey: String,
+    modelAvailable: Boolean,
     onOpenRecommendations: () -> Unit
 ) {
+    val prediction = recommendation?.topRecommendation
     RoundedCard {
-        if (recommendation == null) {
+        if (prediction == null) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
-                    tr("More closed-month history is needed before forecasting"),
+                    tr(recommendationUnavailableMessage(recommendation, modelAvailable)),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 13.sp
                 )
+                if (recommendation?.outsideTrainingFields?.isNotEmpty() == true) {
+                    Text(
+                        recommendation.outsideTrainingFields.joinToString(", ", prefix = "${tr("Check these readings")}: ") {
+                            tr(publicFeatureLabel(it))
+                        },
+                        color = MaterialTheme.colorScheme.error,
+                        fontSize = 12.sp
+                    )
+                }
                 Button(onClick = onOpenRecommendations, modifier = Modifier.fillMaxWidth()) {
                     Text(tr("View full recommendation"))
                 }
@@ -144,44 +169,85 @@ private fun RecommendationPreviewCard(
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                CropThumbnail(recommendation)
+                Box(
+                    modifier = Modifier.size(64.dp).background(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        RoundedCornerShape(16.dp)
+                    ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("🌱", fontSize = 34.sp)
+                }
                 Spacer(Modifier.size(13.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        "${recommendation.cropName} (${recommendation.cropVariety})",
+                        prediction.cropName,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 17.sp
                     )
                     Text(
-                        "${tr("Forecast for")} ${recommendation.monthKey} · ${tr(recommendation.confidenceLabel)}",
+                        "${tr("Top match from 22 crops")} · $monthKey · ${tr(recommendation.confidence.label)}",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 11.sp
                     )
                 }
                 Text(
-                    "${recommendation.score}%",
+                    "${(prediction.modelScore * 100).toInt()}%",
                     color = CropGreen,
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 23.sp
                 )
             }
             LinearProgressIndicator(
-                progress = { recommendation.score / 100f },
+                progress = { prediction.modelScore.toFloat() },
                 modifier = Modifier.fillMaxWidth().height(7.dp),
                 color = CropGreen,
                 trackColor = MaterialTheme.colorScheme.surfaceVariant
             )
             Text(
-                "${recommendation.basedOnMonths.size} ${tr("past months used")} · ${recommendation.sampleCount} ${tr("readings")}",
+                "$sampleCount ${tr("latest-month readings")} · ${tr("model agreement, not field success probability")}",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 11.sp
             )
+            recommendation.rainfallMm?.let { rainfall ->
+                Text(
+                    "${tr("30-day weather rainfall")}: ${"%.1f".format(rainfall)} mm · Open-Meteo",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 11.sp
+                )
+            }
             Button(onClick = onOpenRecommendations, modifier = Modifier.fillMaxWidth()) {
                 Text(tr("View full recommendation"))
             }
         }
     }
+}
+
+private fun recommendationUnavailableMessage(
+    recommendation: PublicCropRecommendationResult?,
+    modelAvailable: Boolean
+): String = when {
+    !modelAvailable -> "The public crop model could not be loaded"
+    recommendation == null -> "At least eight valid monthly readings are needed for the ML recommendation"
+    recommendation.status == PublicCropResultStatus.LOW_MODEL_AGREEMENT ->
+        "No reliable crop match was found for these readings"
+    recommendation.status == PublicCropResultStatus.OUTSIDE_TRAINING_RANGE ->
+        "Sensor conditions are outside the public dataset range"
+    recommendation.status == PublicCropResultStatus.MISSING_RAINFALL ->
+        "Rainfall is needed before this model can recommend a crop"
+    else -> "The sensor readings are invalid for crop recommendation"
+}
+
+private fun publicFeatureLabel(feature: String): String = when (feature) {
+    "N" -> "Nitrogen"
+    "P" -> "Phosphorus"
+    "K" -> "Potassium"
+    "ph" -> "Soil pH"
+    "temperature" -> "Temperature"
+    "humidity" -> "Humidity"
+    "rainfall" -> "Rainfall"
+    else -> feature
 }
 
 @Composable

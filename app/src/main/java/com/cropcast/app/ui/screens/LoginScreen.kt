@@ -64,6 +64,7 @@ fun LoginScreen(
     message: String?,
     onLogin: (String, String) -> Unit,
     onContinueAsGuest: () -> Unit,
+    onGoogleLogin: (suspend () -> String) -> Unit,
     onMessageShown: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -71,6 +72,7 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val focusManager = LocalFocusManager.current
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     LaunchedEffect(message) {
         message?.let {
@@ -176,6 +178,17 @@ fun LoginScreen(
                             } else {
                                 Text("Log in", fontWeight = FontWeight.Bold)
                             }
+                        }
+                        Spacer(Modifier.height(10.dp))
+                        OutlinedButton(
+                            onClick = {
+                                focusManager.clearFocus()
+                                onGoogleLogin { com.cropcast.app.data.GoogleSignIn.getIdToken(context) }
+                            },
+                            modifier = Modifier.fillMaxWidth().height(52.dp),
+                            enabled = !isLoading && !isDemo
+                        ) {
+                            Text("Sign in with Google")
                         }
                         Spacer(Modifier.height(10.dp))
                         OutlinedButton(

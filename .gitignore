@@ -8,4 +8,6 @@ captures/
 .cxx/
 __pycache__/
 *.py[cod]
+.venv/
 graphify-out/
+.kotlin/

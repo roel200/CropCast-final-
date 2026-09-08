@@ -15,10 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +37,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cropcast.app.R
+import com.cropcast.app.data.PublicCropPrediction
+import com.cropcast.app.data.PublicCropRecommendationResult
+import com.cropcast.app.data.PublicCropResultStatus
+import com.cropcast.app.data.RainfallState
+import com.cropcast.app.data.RainfallStatus
+import com.cropcast.app.data.SeedRecommendationEngine
 import com.cropcast.app.data.model.MonthlyCropRecommendation
 import com.cropcast.app.data.model.MonthlySensorSummary
 import com.cropcast.app.data.model.SeedRecommendation
@@ -40,47 +54,177 @@ import kotlin.math.abs
 
 @Composable
 fun SeedsScreen(
-    nextMonthRecommendation: MonthlyCropRecommendation?,
     monthlySummary: MonthlySensorSummary,
-    monthlyRecommendations: List<MonthlyCropRecommendation>,
-    forecastHistory: List<MonthlyCropRecommendation>
+    publicRecommendation: PublicCropRecommendationResult?,
+    rainfallState: RainfallState,
+    publicModelAvailable: Boolean,
+    outcomeCount: Int,
+    onSaveOutcome: (String, Double, Int, String) -> Unit
 ) {
-    val forecastComparisons = forecastHistory.mapNotNull { forecast ->
-        monthlyRecommendations.firstOrNull { it.monthKey == forecast.monthKey }?.let { observed ->
-            forecast to observed
-        }
-    }
-
+    var showOutcomeDialog by remember { mutableStateOf(false) }
     LazyColumn(
         modifier = Modifier.fillMaxSize().padding(horizontal = 18.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item { SectionTitle("✨", tr("Crop Recommendation")) }
-        item { ForecastSummaryCard(nextMonthRecommendation, monthlySummary) }
+        item { MlRecommendationSummaryCard(publicRecommendation, monthlySummary) }
         item { RecommendationCaveat() }
-        nextMonthRecommendation?.let { forecast ->
+        item {
+            PublicCropModelCard(
+                recommendation = publicRecommendation,
+                sampleCount = monthlySummary.sampleCount,
+                rainfallState = rainfallState,
+                modelAvailable = publicModelAvailable
+            )
+        }
+        publicRecommendation?.predictions?.firstOrNull()?.let { prediction ->
             item {
-                SeedCard(
-                    seed = forecast.recommendedCrop,
-                    confidenceLabel = forecast.confidenceLabel,
-                    isForecast = true
+                OutcomeFeedbackCard(
+                    prediction = prediction,
+                    outcomeCount = outcomeCount,
+                    onRecordOutcome = { showOutcomeDialog = true }
                 )
-            }
-            item { RecommendationDetails(forecast) }
-        }
-        if (monthlyRecommendations.isNotEmpty()) {
-            item { SectionTitle("📚", tr("Monthly recommendation history")) }
-            items(monthlyRecommendations, key = { it.monthKey }) { recommendation ->
-                MonthlyRecommendationRow(recommendation)
-            }
-        }
-        if (forecastComparisons.isNotEmpty()) {
-            item { SectionTitle("🔎", tr("Forecast results")) }
-            items(forecastComparisons, key = { it.first.monthKey }) { (forecast, observed) ->
-                ForecastComparisonRow(forecast, observed)
             }
         }
         item { Spacer(Modifier.height(14.dp)) }
+    }
+
+    if (showOutcomeDialog) {
+        OutcomeFeedbackDialog(
+            suggestedCrop = publicRecommendation?.predictions?.firstOrNull()?.cropName.orEmpty(),
+            onDismiss = { showOutcomeDialog = false },
+            onSave = { plantedCrop, harvestedKg, rating, problems ->
+                onSaveOutcome(plantedCrop, harvestedKg, rating, problems)
+                showOutcomeDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+private fun PublicCropModelCard(
+    recommendation: PublicCropRecommendationResult?,
+    sampleCount: Int,
+    rainfallState: RainfallState,
+    modelAvailable: Boolean
+) {
+    RoundedCard(color = MaterialTheme.colorScheme.surface) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                "🤖 ${tr("Public-data ML recommendations")}",
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 15.sp
+            )
+            when {
+                !modelAvailable -> Text(
+                    tr("The public crop model could not be loaded"),
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp
+                )
+                recommendation == null -> Text(
+                    "${tr("Collect at least")} ${SeedRecommendationEngine.MIN_MONTHLY_SAMPLES} " +
+                        tr("valid readings for the 22-crop model"),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 12.sp
+                )
+                recommendation.status == PublicCropResultStatus.OUTSIDE_TRAINING_RANGE -> {
+                    Text(
+                        tr("Sensor conditions are outside the public dataset range"),
+                        color = MaterialTheme.colorScheme.error,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        recommendation.outsideTrainingFields.joinToString(", ", prefix = "${tr("Check these readings")}: ") {
+                            tr(publicFeatureLabel(it))
+                        },
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 12.sp
+                    )
+                }
+                recommendation.status == PublicCropResultStatus.INVALID_INPUT -> Text(
+                    tr("The sensor readings are invalid for crop recommendation"),
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp
+                )
+                else -> {
+                    if (recommendation.status == PublicCropResultStatus.LOW_MODEL_AGREEMENT) {
+                        Text(
+                            tr("No reliable crop match was found; the closest experimental matches are shown below"),
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 12.sp
+                        )
+                    }
+                    recommendation.predictions.forEachIndexed { index, prediction ->
+                        PredictionRow(index, prediction)
+                    }
+                }
+            }
+            RecommendationDataSource(sampleCount, recommendation, rainfallState)
+        }
+    }
+}
+
+@Composable
+private fun PredictionRow(index: Int, prediction: PublicCropPrediction) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            "${index + 1}",
+            color = CropGreen,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 16.sp
+        )
+        Spacer(Modifier.size(10.dp))
+        Text(
+            prediction.cropName,
+            modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold,
+            fontSize = 13.sp
+        )
+        Text(
+            "${(prediction.modelScore * 100).toInt()}% ${tr("model agreement")}",
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 11.sp
+        )
+    }
+}
+
+@Composable
+private fun RecommendationDataSource(
+    sampleCount: Int,
+    recommendation: PublicCropRecommendationResult?,
+    rainfallState: RainfallState
+) {
+    val rainfall = rainfallState.estimate
+    val detail = when {
+        recommendation?.usesRainfall == true && rainfall != null ->
+            "${"%.1f".format(rainfall.millimeters)} mm · ${rainfall.startDate} to ${rainfall.endDate}"
+        rainfallState.status == RainfallStatus.LOADING -> tr("Loading rainfall estimate")
+        rainfallState.status == RainfallStatus.NOT_CONFIGURED -> tr("Add valid farm coordinates in Settings to include rainfall")
+        rainfallState.status == RainfallStatus.UNAVAILABLE -> tr("Weather unavailable; using the six-input offline model")
+        else -> tr("Using the six-input offline model")
+    }
+    Text(
+        "${tr("Experimental 22-crop model using")} $sampleCount ${tr("latest-month readings")}",
+        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .78f),
+        fontSize = 11.sp
+    )
+    Text(
+        "${tr("Rainfall")}: $detail",
+        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .78f),
+        fontSize = 11.sp
+    )
+    if (rainfall != null) {
+        Text(
+            tr("Weather data by Open-Meteo; rainfall is an estimate, not a field gauge reading"),
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .70f),
+            fontSize = 10.sp
+        )
     }
 }
 
@@ -96,33 +240,52 @@ private fun RecommendationCaveat() {
 }
 
 @Composable
-private fun ForecastSummaryCard(
-    forecast: MonthlyCropRecommendation?,
+private fun MlRecommendationSummaryCard(
+    recommendation: PublicCropRecommendationResult?,
     monthlySummary: MonthlySensorSummary
 ) {
+    val prediction = recommendation?.topRecommendation
     RoundedCard(color = MaterialTheme.colorScheme.primaryContainer) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             Text(
-                "📅 ${tr("Next month recommendation")}",
+                "🤖 ${tr("ML crop recommendation")}",
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 15.sp
             )
-            if (forecast != null) {
+            if (prediction != null) {
                 Text(
-                    "${tr("Forecast for")} ${forecast.monthKey} · ${forecast.basedOnMonths.size} ${tr("past months used")}",
+                    "${tr("Top recommendation")}: ${prediction.cropName}",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 13.sp
                 )
                 Text(
-                    "${tr("Based on historical sensor data")}: ${forecast.basedOnMonths.joinToString()}",
+                    "${tr("Based on")} ${monthlySummary.sampleCount} ${tr("sensor readings from the latest available month")}: ${monthlySummary.monthKey}",
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = .78f),
                     fontSize = 12.sp
                 )
+                Text(
+                    tr(recommendation.confidence.label),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 12.sp
+                )
+            } else if (recommendation?.status == PublicCropResultStatus.OUTSIDE_TRAINING_RANGE) {
+                Text(
+                    tr("No recommendation: readings are outside the public dataset range"),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 13.sp
+                )
+            } else if (recommendation?.status == PublicCropResultStatus.LOW_MODEL_AGREEMENT) {
+                Text(
+                    tr("No reliable crop match was found for these readings"),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 13.sp
+                )
             } else if (monthlySummary.hasData) {
                 Text(
-                    tr("More closed-month history is needed before forecasting"),
+                    tr("At least eight valid monthly readings are needed for the ML recommendation"),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontSize = 13.sp
                 )
@@ -135,6 +298,104 @@ private fun ForecastSummaryCard(
             }
         }
     }
+}
+
+@Composable
+private fun OutcomeFeedbackCard(
+    prediction: PublicCropPrediction,
+    outcomeCount: Int,
+    onRecordOutcome: () -> Unit
+) {
+    RoundedCard(color = MaterialTheme.colorScheme.surface) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                "📝 ${tr("Build your local dataset")}",
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 15.sp
+            )
+            Text(
+                "${tr("Save what was planted and the harvest result for future local validation")}. " +
+                    "${tr("Current recommendation")}: ${prediction.cropName}.",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 12.sp
+            )
+            Text(
+                "$outcomeCount ${tr("saved local outcomes")}",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 11.sp
+            )
+            Button(onClick = onRecordOutcome, modifier = Modifier.fillMaxWidth()) {
+                Text(tr("Record crop outcome"))
+            }
+        }
+    }
+}
+
+@Composable
+private fun OutcomeFeedbackDialog(
+    suggestedCrop: String,
+    onDismiss: () -> Unit,
+    onSave: (String, Double, Int, String) -> Unit
+) {
+    var plantedCrop by remember(suggestedCrop) { mutableStateOf(suggestedCrop) }
+    var harvestedKg by remember { mutableStateOf("") }
+    var rating by remember { mutableStateOf("") }
+    var problems by remember { mutableStateOf("") }
+    val parsedHarvest = harvestedKg.toDoubleOrNull()
+    val parsedRating = rating.toIntOrNull()
+    val valid = plantedCrop.isNotBlank() && parsedHarvest != null && parsedHarvest >= 0.0 && parsedRating in 1..5
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(tr("Record crop outcome")) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = plantedCrop,
+                    onValueChange = { plantedCrop = it },
+                    label = { Text(tr("Planted crop")) },
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = harvestedKg,
+                    onValueChange = { harvestedKg = it },
+                    label = { Text(tr("Harvest weight (kg)")) },
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = rating,
+                    onValueChange = { rating = it },
+                    label = { Text(tr("Outcome rating (1-5)")) },
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = problems,
+                    onValueChange = { problems = it },
+                    label = { Text(tr("Problems or notes (optional)")) },
+                    minLines = 2
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                enabled = valid,
+                onClick = { onSave(plantedCrop.trim(), parsedHarvest!!, parsedRating!!, problems.trim()) }
+            ) { Text(tr("Save")) }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(tr("Cancel")) } }
+    )
+}
+
+private fun publicFeatureLabel(feature: String): String = when (feature) {
+    "N" -> "Nitrogen"
+    "P" -> "Phosphorus"
+    "K" -> "Potassium"
+    "ph" -> "Soil pH"
+    "temperature" -> "Temperature"
+    "humidity" -> "Humidity"
+    "rainfall" -> "Rainfall"
+    else -> feature
 }
 
 @Composable

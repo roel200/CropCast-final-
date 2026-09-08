@@ -1,0 +1,144 @@
+{
+  "model_design": "android-public-crop-random-forest-v1",
+  "evaluated_at_utc": "2026-09-07T13:26:19.211610+00:00",
+  "protocol": "5-fold stratified cross-validation; every row is tested out-of-sample once",
+  "features": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph"
+  ],
+  "row_count": 2200,
+  "class_count": 22,
+  "folds": [
+    {
+      "fold": 1,
+      "train_rows": 1760,
+      "test_rows": 440,
+      "accuracy": 0.9636363636363636,
+      "macro_f1": 0.9633457268355787
+    },
+    {
+      "fold": 2,
+      "train_rows": 1760,
+      "test_rows": 440,
+      "accuracy": 0.9590909090909091,
+      "macro_f1": 0.9595235351332912
+    },
+    {
+      "fold": 3,
+      "train_rows": 1760,
+      "test_rows": 440,
+      "accuracy": 0.9659090909090909,
+      "macro_f1": 0.9659552658356486
+    },
+    {
+      "fold": 4,
+      "train_rows": 1760,
+      "test_rows": 440,
+      "accuracy": 0.9840909090909091,
+      "macro_f1": 0.9840295556329828
+    },
+    {
+      "fold": 5,
+      "train_rows": 1760,
+      "test_rows": 440,
+      "accuracy": 0.9545454545454546,
+      "macro_f1": 0.9546349991471943
+    }
+  ],
+  "mean_fold_accuracy": 0.9654545454545456,
+  "standard_deviation_fold_accuracy": 0.010102777623133125,
+  "minimum_fold_accuracy": 0.9545454545454546,
+  "maximum_fold_accuracy": 0.9840909090909091,
+  "out_of_fold_accuracy": 0.9654545454545455,
+  "out_of_fold_macro_f1": 0.9655229367394487,
+  "out_of_fold_top3_accuracy": 1.0,
+  "per_crop_recall": {
+    "apple": 1.0,
+    "banana": 1.0,
+    "blackgram": 0.9,
+    "chickpea": 1.0,
+    "coconut": 1.0,
+    "coffee": 1.0,
+    "cotton": 1.0,
+    "grapes": 1.0,
+    "jute": 0.84,
+    "kidneybeans": 1.0,
+    "lentil": 0.87,
+    "maize": 1.0,
+    "mango": 0.99,
+    "mothbeans": 0.9,
+    "mungbean": 1.0,
+    "muskmelon": 1.0,
+    "orange": 1.0,
+    "papaya": 1.0,
+    "pigeonpeas": 0.87,
+    "pomegranate": 1.0,
+    "rice": 0.87,
+    "watermelon": 1.0
+  },
+  "misclassification_pairs": [
+    {
+      "expected": "jute",
+      "predicted": "rice",
+      "count": 16
+    },
+    {
+      "expected": "rice",
+      "predicted": "jute",
+      "count": 13
+    },
+    {
+      "expected": "lentil",
+      "predicted": "blackgram",
+      "count": 12
+    },
+    {
+      "expected": "blackgram",
+      "predicted": "lentil",
+      "count": 10
+    },
+    {
+      "expected": "mothbeans",
+      "predicted": "pigeonpeas",
+      "count": 9
+    },
+    {
+      "expected": "pigeonpeas",
+      "predicted": "mothbeans",
+      "count": 6
+    },
+    {
+      "expected": "pigeonpeas",
+      "predicted": "lentil",
+      "count": 6
+    },
+    {
+      "expected": "pigeonpeas",
+      "predicted": "blackgram",
+      "count": 1
+    },
+    {
+      "expected": "mothbeans",
+      "predicted": "lentil",
+      "count": 1
+    },
+    {
+      "expected": "lentil",
+      "predicted": "pigeonpeas",
+      "count": 1
+    },
+    {
+      "expected": "mango",
+      "predicted": "mothbeans",
+      "count": 1
+    }
+  ],
+  "limitations": [
+    "Cross-validation tests consistency within the public dataset, not Philippine field accuracy.",
+    "The Android model excludes rainfall because CropCast has no verified rainfall input."
+  ]
+}

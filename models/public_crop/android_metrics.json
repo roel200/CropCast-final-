@@ -1,0 +1,80 @@
+{
+  "model_version": "android-public-crop-random-forest-v1",
+  "trained_at_utc": "2026-09-07T14:46:20.188134+00:00",
+  "dataset": "data/raw/Crop_recommendation.csv",
+  "dataset_sha256": "808e1d84a544647f1ab2fdae04f434b1842692d6be09eee18a5c2d43eb78d77c",
+  "row_count": 2200,
+  "class_count": 22,
+  "classes": [
+    "apple",
+    "banana",
+    "blackgram",
+    "chickpea",
+    "coconut",
+    "coffee",
+    "cotton",
+    "grapes",
+    "jute",
+    "kidneybeans",
+    "lentil",
+    "maize",
+    "mango",
+    "mothbeans",
+    "mungbean",
+    "muskmelon",
+    "orange",
+    "papaya",
+    "pigeonpeas",
+    "pomegranate",
+    "rice",
+    "watermelon"
+  ],
+  "variants": {
+    "without_rainfall": {
+      "features": [
+        "N",
+        "P",
+        "K",
+        "temperature",
+        "humidity",
+        "ph"
+      ],
+      "tree_count": 100,
+      "train_rows_for_evaluation": 1760,
+      "test_rows": 440,
+      "held_out_accuracy": 0.9704545454545455,
+      "held_out_macro_f1": 0.970330592859476,
+      "held_out_top3_accuracy": 1.0,
+      "final_model_training_rows": 2200,
+      "asset": "app/src/main/assets/public_crop_forest.bin",
+      "asset_size_bytes": 1787769
+    },
+    "with_weather_rainfall": {
+      "features": [
+        "N",
+        "P",
+        "K",
+        "temperature",
+        "humidity",
+        "ph",
+        "rainfall"
+      ],
+      "tree_count": 100,
+      "train_rows_for_evaluation": 1760,
+      "test_rows": 440,
+      "held_out_accuracy": 0.9931818181818182,
+      "held_out_macro_f1": 0.9931775541531639,
+      "held_out_top3_accuracy": 1.0,
+      "final_model_training_rows": 2200,
+      "asset": "app/src/main/assets/public_crop_forest_rainfall.bin",
+      "asset_size_bytes": 1162245
+    }
+  },
+  "limitations": [
+    "Weather rainfall is a 30-day location estimate and is not a field rain gauge measurement.",
+    "The six-input asset remains available when weather rainfall cannot be obtained.",
+    "Metrics measure only a held-out portion of the public India-derived dataset.",
+    "Model scores are Random Forest vote scores, not calibrated success probabilities.",
+    "Philippine field accuracy has not been established."
+  ]
+}

@@ -13,7 +13,20 @@
           "package_name": "com.cropcast.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "155556421068-mn26p7f9vt4asbs2rdg38ubhegf9udkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cropcast.app",
+            "certificate_hash": "ea37cf3dfd2f67b137ff83d4c9e68137f48c577b"
+          }
+        },
+        {
+          "client_id": "155556421068-dgq27m5tj2ai1qrk3hgto33i1prvhs9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDeNh394iQzZSYOkvNm7G1bJoMgnuXL89k"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155556421068-dgq27m5tj2ai1qrk3hgto33i1prvhs9g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

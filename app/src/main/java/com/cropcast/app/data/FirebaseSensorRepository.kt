@@ -10,6 +10,7 @@ import com.cropcast.app.data.model.MonthlyCropRecommendation
 import com.cropcast.app.data.model.SensorReading
 import com.cropcast.app.data.model.isValidForRecommendation
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,6 +29,7 @@ class FirebaseSensorRepository(
     private val deviceId: String = "esp32-field-01",
     forceDemo: Boolean = false
 ) {
+    private val credentialManager = androidx.credentials.CredentialManager.create(context.applicationContext)
     private val configured = !forceDemo && FirebaseApp.getApps(context).isNotEmpty()
     private val auth by lazy { FirebaseAuth.getInstance() }
     private val database by lazy { FirebaseDatabase.getInstance() }
@@ -45,6 +47,13 @@ class FirebaseSensorRepository(
     suspend fun signIn(email: String, password: String): AccountInfo {
         check(configured) { "Firebase is not configured. Continue in demo mode instead." }
         auth.signInWithEmailAndPassword(email.trim(), password).await()
+        return loadAccountInfo()
+    }
+
+    suspend fun signInWithGoogle(idToken: String): AccountInfo {
+        check(configured) { "Firebase is not configured." }
+        require(idToken.isNotBlank()) { "Google did not return an ID token." }
+        auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null)).await()
         return loadAccountInfo()
     }
 
@@ -102,6 +111,14 @@ class FirebaseSensorRepository(
             }.sortedByDescending { it.submittedAt }
         }
 
+    suspend fun saveOutcomeFeedback(feedback: CropOutcomeFeedback) {
+        connect().getOrThrow()
+        require(feedback.plantedCrop.isNotBlank()) { "Enter the crop that was planted" }
+        require(feedback.rating in 1..5) { "Outcome rating must be from 1 to 5" }
+        require(feedback.harvestedKg >= 0.0) { "Harvest weight cannot be negative" }
+        deviceRef.child("recommendations/feedback").push().setValue(feedback.copy(id = "")).await()
+    }
+
     fun observeStatus(): Flow<DeviceStatus> = valueFlow("status", DeviceStatus()) { snapshot ->
         val lastSeen = snapshot.child("lastSeen").getValue(Long::class.java) ?: 0L
         val declaredOnline = snapshot.child("online").getValue(Boolean::class.java) ?: false
@@ -148,7 +165,7 @@ class FirebaseSensorRepository(
         val user = requireNotNull(auth.currentUser)
         val profile = database.reference.child("users/${user.uid}/profile").get().await()
         return AccountInfo(
-            displayName = profile.child("displayName").getValue(String::class.java) ?: "Guest Farmer",
+            displayName = profile.child("displayName").getValue(String::class.java) ?: user.displayName ?: "Guest Farmer",
             role = profile.child("role").getValue(String::class.java) ?: "Farmer",
             email = user.email ?: "Anonymous account",
             isAnonymous = user.isAnonymous
@@ -170,8 +187,15 @@ class FirebaseSensorRepository(
         user.updatePassword(password).await()
     }
 
-    fun signOut() {
-        if (configured) auth.signOut()
+    suspend fun signOut() {
+        if (configured) {
+            auth.signOut()
+            try {
+                credentialManager.clearCredentialState(androidx.credentials.ClearCredentialStateRequest())
+            } catch (_: androidx.credentials.exceptions.ClearCredentialException) {
+                // Firebase is signed out even when the credential provider is unavailable.
+            }
+        }
     }
 
     suspend fun acknowledgeAlert(id: String) {

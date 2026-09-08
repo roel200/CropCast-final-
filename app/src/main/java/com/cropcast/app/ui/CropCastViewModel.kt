@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.cropcast.app.data.FirebaseSensorRepository
 import com.cropcast.app.data.MonthlySensorAggregator
+import com.cropcast.app.data.RainfallEstimate
 import com.cropcast.app.data.SeedRecommendationEngine
 import com.cropcast.app.data.model.AlertEvent
 import com.cropcast.app.data.model.AlertSettings
@@ -295,6 +296,28 @@ class CropCastViewModel(
             }
     }
 
+    fun loginWithGoogle(getIdToken: suspend () -> String) = viewModelScope.launch {
+        if (seedState.value.isAuthLoading) return@launch
+        if (!repository.isConfigured()) return@launch showMessage("Google sign-in requires Firebase configuration")
+        seedState.value = seedState.value.copy(isAuthLoading = true, message = null)
+        try {
+            val account = repository.signInWithGoogle(getIdToken())
+            seedState.value = seedState.value.copy(
+                account = account, isAuthenticated = true, error = null, message = null
+            )
+        } catch (_: androidx.credentials.exceptions.GetCredentialCancellationException) {
+            // Closing the account chooser leaves the user on the login screen.
+        } catch (error: kotlinx.coroutines.CancellationException) {
+            throw error
+        } catch (_: androidx.credentials.exceptions.NoCredentialException) {
+            showMessage("Add a Google account to your device, then try again")
+        } catch (error: Exception) {
+            showMessage(error.message ?: "Google sign-in failed. Please try again.")
+        } finally {
+            seedState.value = seedState.value.copy(isAuthLoading = false)
+        }
+    }
+
     fun continueAsGuest() = viewModelScope.launch {
         seedState.value = seedState.value.copy(isAuthLoading = true, message = null)
         if (uiState.value.isDemo) {
@@ -390,6 +413,61 @@ class CropCastViewModel(
                 )
             }
             .onFailure { showMessage(it.message ?: "Sign out failed") }
+    }
+
+    fun saveCropOutcome(
+        recommendedCrop: String,
+        recommendationScore: Double,
+        plantedCrop: String,
+        harvestedKg: Double,
+        rating: Int,
+        problems: String,
+        rainfall: RainfallEstimate?,
+        modelUsesRainfall: Boolean
+    ) {
+        val normalizedCrop = plantedCrop.trim()
+        when {
+            normalizedCrop.isBlank() -> return showMessage("Enter the crop that was planted")
+            harvestedKg < 0.0 -> return showMessage("Harvest weight cannot be negative")
+            rating !in 1..5 -> return showMessage("Choose an outcome rating from 1 to 5")
+        }
+        val state = uiState.value
+        val reading = state.monthlySummary.average
+        val feedback = CropOutcomeFeedback(
+            id = if (state.isDemo) "demo-${System.currentTimeMillis()}" else "",
+            monthKey = state.monthlySummary.monthKey,
+            recommendedCrop = recommendedCrop,
+            recommendationScore = recommendationScore,
+            plantedCrop = normalizedCrop,
+            harvestedKg = harvestedKg,
+            rating = rating,
+            problems = problems.trim(),
+            temperature = reading.temperature,
+            humidity = reading.humidity,
+            soilMoisture = reading.soilMoisture,
+            soilPh = reading.soilPh,
+            nitrogen = reading.nitrogen,
+            phosphorus = reading.phosphorus,
+            potassium = reading.potassium,
+            rainfallMm = rainfall?.millimeters,
+            rainfallSource = rainfall?.source.orEmpty(),
+            farmLatitude = state.settings.farmLatitude,
+            farmLongitude = state.settings.farmLongitude,
+            modelVariant = if (modelUsesRainfall) "7-input-weather-rainfall-v1" else "6-input-fallback-v1",
+            submittedAt = System.currentTimeMillis()
+        )
+        if (state.isDemo) {
+            seedState.value = seedState.value.copy(
+                outcomeFeedback = listOf(feedback) + seedState.value.outcomeFeedback,
+                message = "Crop outcome saved in demo mode"
+            )
+        } else {
+            viewModelScope.launch {
+                runCatching { repository.saveOutcomeFeedback(feedback) }
+                    .onSuccess { showMessage("Crop outcome saved") }
+                    .onFailure { showMessage(it.message ?: "Could not save crop outcome") }
+            }
+        }
     }
 
     fun clearMessage() { seedState.value = seedState.value.copy(message = null) }

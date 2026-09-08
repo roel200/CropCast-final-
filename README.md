@@ -41,6 +41,31 @@ The default device path is:
 
 The included rules are appropriate for a prototype: any authenticated Firebase user can access device data. Before production, bind users/devices with custom claims or per-device ownership rules and disable client-side simulation.
 
+## Google sign-in setup
+
+The login screen supports Google through Android Credential Manager and Firebase
+Authentication. Email/password and guest login remain available. Google sign-in
+is disabled in local demo mode.
+
+1. In Firebase Console, open **Authentication → Sign-in method**, enable
+   **Google**, select a support email, and save.
+2. Run `./gradlew :app:signingReport` (Windows: `gradlew.bat :app:signingReport`).
+   In **Project settings → Your apps → com.cropcast.app**, add the debug
+   certificate SHA-1 and SHA-256 fingerprints. Add release signing fingerprints
+   as well when distributing a release build.
+3. Download the updated `google-services.json` from that Android app's settings
+   and replace `app/google-services.json`. It must contain a Web OAuth client
+   (client type 3), used to generate `default_web_client_id`.
+4. Sync Gradle and rebuild. Use a real device with Google Play services or an
+   emulator with a **Google Play** system image, and add a Google account.
+5. Tap **Sign in with Google**, choose an account, and verify that the dashboard
+   opens. Sign out and try another account; canceling the chooser should leave
+   the login screen usable. Also check the existing email and guest flows.
+
+The initial checked-in Firebase configuration has no OAuth clients, so it must
+be updated before Google sign-in can succeed. Never put a Google client secret
+in the Android app.
+
 ## ESP32 setup
 
 Install these Arduino libraries:
@@ -60,6 +85,7 @@ The sample firmware wiring defaults are DHT11 GPIO 4, pH ADC GPIO 34, moisture A
 - NPK register addresses vary by manufacturer; the firmware uses common registers `0x001E`–`0x0020` and slave ID `1`.
 - Firebase timestamps use NTP-derived Unix milliseconds, which the app uses to determine whether the ESP32 was seen within the last two minutes.
 - The firmware stores one history sample per hour under a UTC `yyyy-MM` bucket. The dashboard validates readings, tracks monthly averages/ranges/variability, creates an observed recommendation for every eligible closed month, and forecasts the next month from the latest month, same-calendar-month history when available, and the three preceding complete months. The rule-based engine recommends the best-matching crop from Tomato, Okra, Alugbati, Potato, Rice, Corn, Eggplant, Cucumber, Cabbage, Sweet Potato, Lettuce, and Spinach using N, P, K, pH, soil moisture, temperature, and humidity.
+- The app's primary recommendation uses an experimental on-device Random Forest ranking from the public 22-crop dataset. The model uses N, P, K, temperature, humidity, and pH. Rainfall was excluded because the device has no verified rainfall input. Its saved metrics describe only a held-out portion of the public dataset and are not evidence of Philippine field accuracy; see `models/public_crop/README.md`.
 - Recommendations show the runner-up, confidence, unstable fields, month-to-month trends, and general Philippine wet/dry-season guidance. This seasonal note is advisory and explicitly asks the farmer to confirm a local weather forecast.
 - Farmers can save planting outcomes under `devices/{deviceId}/recommendations/feedback`. A crop's score receives a conservative local adjustment only after at least three valid 1–5 outcome ratings; harvest weight and notes are stored for later evaluation but do not change the score because field area and yield units are not yet normalized.
 - Light remains visible in the dashboard but is intentionally excluded from crop scoring until crop-specific lux thresholds are validated. The tomato reference dataset's solar radiation in `W/m2` is not converted to lux.

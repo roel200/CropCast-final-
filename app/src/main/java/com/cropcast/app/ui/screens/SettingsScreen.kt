@@ -87,6 +87,8 @@ fun SettingsScreen(
     val localizedMessage = state.message?.let { localize(it, state.settings.language) }
     val farmNameLabel = tr("Farm or field name")
     val deviceNameLabel = tr("ESP32 device name")
+    val farmLatitudeLabel = tr("Farm latitude")
+    val farmLongitudeLabel = tr("Farm longitude")
     val currentCropLabel = tr("Current crop")
     val cropVarietyLabel = tr("Crop variety")
     val plantingDateLabel = tr("Planting date")
@@ -128,6 +130,24 @@ fun SettingsScreen(
                     EditableRow(deviceNameLabel, state.settings.deviceName) {
                         editor = EditorRequest(deviceNameLabel, state.settings.deviceName) {
                             onSaveSettings(state.settings.copy(deviceName = it))
+                        }
+                    }
+                    Divider()
+                    Text(
+                        tr("Farm coordinates let CropCast obtain a 30-day rainfall estimate"),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 11.sp,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                    EditableRow(farmLatitudeLabel, state.settings.farmLatitude.ifBlank { notSetLabel }) {
+                        editor = EditorRequest(farmLatitudeLabel, state.settings.farmLatitude) {
+                            onSaveSettings(state.settings.copy(farmLatitude = it))
+                        }
+                    }
+                    Divider()
+                    EditableRow(farmLongitudeLabel, state.settings.farmLongitude.ifBlank { notSetLabel }) {
+                        editor = EditorRequest(farmLongitudeLabel, state.settings.farmLongitude) {
+                            onSaveSettings(state.settings.copy(farmLongitude = it))
                         }
                     }
                     Divider()

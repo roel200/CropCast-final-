@@ -21,6 +21,37 @@ private val hiligaynon = mapOf(
     "Recommendation" to "Rekomendasyon",
     "Sensor details" to "Detalye sang sensor",
     "Crop Recommendation" to "Rekomendasyon sang Tanom",
+    "ML crop recommendation" to "Rekomendasyon sang tanom paagi sa ML",
+    "Top recommendation" to "Panguna nga rekomendasyon",
+    "Top match from 22 crops" to "Pinakamaayo nga kaangay sa 22 ka tanom",
+    "experimental model score" to "eksperimental nga iskor sang modelo",
+    "model agreement" to "pag-uyon sang modelo",
+    "model agreement, not field success probability" to "pag-uyon sang modelo, indi posibilidad sang kalampusan sa latagon",
+    "High model agreement" to "Mataas nga pag-uyon sang modelo",
+    "Moderate model agreement" to "Kasagarang pag-uyon sang modelo",
+    "Low model agreement" to "Manubo nga pag-uyon sang modelo",
+    "Agreement unavailable" to "Wala sang iskor sang pag-uyon",
+    "At least eight valid monthly readings are needed for the ML recommendation" to "Kinahanglan ang labing gamay walo ka husto nga binulan nga pagbasa para sa rekomendasyon sang ML",
+    "Public-data ML recommendations" to "Mga rekomendasyon sang ML halin sa publiko nga datos",
+    "The public crop model could not be loaded" to "Indi ma-load ang publiko nga modelo sang tanom",
+    "Collect at least" to "Magtipon sang labing gamay",
+    "valid readings for the 22-crop model" to "ka husto nga pagbasa para sa modelo nga may 22 ka tanom",
+    "model score" to "iskor sang modelo",
+    "Experimental 22-crop model using" to "Eksperimental nga modelo sang 22 ka tanom nga nagagamit sang",
+    "latest-month readings; rainfall is excluded because the device does not measure it" to "mga pagbasa sang pinakabag-o nga bulan; wala ginlakip ang ulan kay wala ini ginakuha sang device",
+    "Sensor conditions are outside the public dataset range" to "Ang kondisyon sang sensor yara sa guwa sang range sang publiko nga dataset",
+    "Check these readings" to "Usisaa ini nga mga pagbasa",
+    "The sensor readings are invalid for crop recommendation" to "Indi balido ang mga pagbasa sang sensor para sa rekomendasyon sang tanom",
+    "No reliable crop match was found for these readings" to "Wala sang masaligan nga kaangay nga tanom para sini nga mga pagbasa",
+    "No reliable crop match was found; the closest experimental matches are shown below" to "Wala sang masaligan nga kaangay; ginapakita sa idalom ang pinakamalapit nga eksperimento nga mga resulta",
+    "Rainfall is needed before this model can recommend a crop" to "Kinahanglan ang datos sang ulan antes makarekomendar ini nga modelo",
+    "No recommendation: readings are outside the public dataset range" to "Wala sang rekomendasyon: yara sa guwa sang range sang publiko nga dataset ang mga pagbasa",
+    "30-day weather rainfall" to "Ulan sa sulod sang 30 ka adlaw",
+    "Loading rainfall estimate" to "Ginakuha ang banabana sang ulan",
+    "Add valid farm coordinates in Settings to include rainfall" to "Ibutang ang husto nga koordinado sang uma sa Settings agod malakip ang ulan",
+    "Weather unavailable; using the six-input offline model" to "Wala ang datos sang panahon; ginagamit ang offline nga modelo nga may anum ka input",
+    "Using the six-input offline model" to "Ginagamit ang offline nga modelo nga may anum ka input",
+    "Weather data by Open-Meteo; rainfall is an estimate, not a field gauge reading" to "Datos sang panahon halin sa Open-Meteo; banabana lamang ang ulan kag indi pagbasa sang rain gauge sa latagon",
     "Next month recommendation" to "Rekomendasyon para sa masunod nga bulan",
     "Forecast for" to "Tagna para sa",
     "past months used" to "nagligad nga mga bulan ang gin-gamit",
@@ -66,6 +97,9 @@ private val hiligaynon = mapOf(
     "Farm & Device" to "Uma kag Device",
     "Farm or field name" to "Ngalan sang uma ukon latagon",
     "ESP32 device name" to "Ngalan sang ESP32 device",
+    "Farm latitude" to "Latitude sang uma",
+    "Farm longitude" to "Longitude sang uma",
+    "Farm coordinates let CropCast obtain a 30-day rainfall estimate" to "Ang koordinado sang uma nagatugot sa CropCast nga magkuha sang 30 ka adlaw nga banabana sang ulan",
     "Connection status" to "Kahimtangan sang koneksyon",
     "Online" to "Online",
     "Demo mode" to "Demo mode",
@@ -152,6 +186,18 @@ private val hiligaynon = mapOf(
     "Settings saved in demo mode" to "Natipigan ang mga setting sa demo mode",
     "Settings synchronized" to "Na-sync ang mga setting",
     "Could not save settings" to "Indi matipigan ang mga setting"
+    ,"Build your local dataset" to "Maghimo sang lokal nga dataset"
+    ,"Save what was planted and the harvest result for future local validation" to "Tipigi ang gintanom kag resulta sang ani para sa masunod nga lokal nga pag-validate"
+    ,"Current recommendation" to "Karon nga rekomendasyon"
+    ,"saved local outcomes" to "natipigan nga lokal nga resulta"
+    ,"Record crop outcome" to "Irekord ang resulta sang tanom"
+    ,"Planted crop" to "Gintanom nga tanom"
+    ,"Harvest weight (kg)" to "Kabug-aton sang ani (kg)"
+    ,"Outcome rating (1-5)" to "Marka sang resulta (1-5)"
+    ,"Problems or notes (optional)" to "Mga problema ukon nota (opsyonal)"
+    ,"Crop outcome saved in demo mode" to "Natipigan ang resulta sang tanom sa demo mode"
+    ,"Crop outcome saved" to "Natipigan ang resulta sang tanom"
+    ,"Could not save crop outcome" to "Indi matipigan ang resulta sang tanom"
 )
 
 fun localize(english: String, language: String): String =
