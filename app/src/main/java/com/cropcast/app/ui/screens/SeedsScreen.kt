@@ -135,10 +135,12 @@ private fun PublicCropModelCard(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold
                     )
+                    val localizedFields = mutableListOf<String>()
+                    for (field in recommendation.outsideTrainingFields) {
+                        localizedFields += tr(publicFeatureLabel(field))
+                    }
                     Text(
-                        recommendation.outsideTrainingFields.joinToString(", ", prefix = "${tr("Check these readings")}: ") {
-                            tr(publicFeatureLabel(it))
-                        },
+                        localizedFields.joinToString(", ", prefix = "${tr("Check these readings")}: "),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 12.sp
                     )

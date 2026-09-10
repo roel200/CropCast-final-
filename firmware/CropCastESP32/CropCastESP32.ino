@@ -17,7 +17,6 @@
 // ---------------------------------------------------------------------------
 // A. Includes
 // ---------------------------------------------------------------------------
-#include <Arduino.h>
 #include <esp_system.h>
 #include <math.h>
 #include <stdarg.h>
@@ -274,6 +273,8 @@ const char *historyState = "withheld";
 bool historyEnabled = true;
 bool historyLocalOverride = false;  // set by the console `history` command
 bool lightSensorReady = false;
+bool firebaseStarted = false;
+bool firebaseConfigurationErrorLogged = false;
 bool firebaseAnnounced = false;
 bool timeAnnounced = false;
 uint8_t runtimeLogLevel = CROPCAST_LOG_LEVEL;
@@ -1020,7 +1021,7 @@ const ConsoleCommand CONSOLE_COMMANDS[] = {
     {"scan", cmdScan, "scan", "I2C bus scan"},
     {"npk", cmdNpk, "npk [reg] [count]", "one Modbus read, hex dump and decoded error"},
     {"time", cmdTime, "time [sync]", "clock state; 'sync' re-arms NTP"},
-    {"wifi", cmdWifi, "wifi [reconnect]", "network state"},
+    {"wifi", cmdWifi, "wifi [reconnect|scan]", "network state and nearby SSIDs"},
     {"fb", cmdFirebase, "fb", "Firebase ready state, uid, base path, last error"},
     {"sensors", cmdSensors, "sensors [<name> on|off]", "list or toggle expected channels"},
     {"log", cmdLog, "log [level]", "show or set verbosity (off..trace)"},
@@ -1271,19 +1272,44 @@ void cmdWifi(const char *args) {
     Serial.println("reconnecting");
     return;
   }
-  Serial.printf("status : %d (%s)\n", WiFi.status(),
-                WiFi.status() == WL_CONNECTED ? "connected" : "not connected");
+
+  if (strcasecmp(args, "scan") == 0) {
+    WiFi.disconnect();
+    delay(100);
+    Serial.println("scanning for 2.4 GHz Wi-Fi networks...");
+    const int networkCount = WiFi.scanNetworks();
+    if (networkCount < 0) {
+      Serial.printf("scan failed: %d\n", networkCount);
+    } else if (networkCount == 0) {
+      Serial.println("no Wi-Fi networks found");
+    } else {
+      for (int index = 0; index < networkCount; index++) {
+        Serial.printf("%2d: %s (%d dBm, channel %d)\n", index + 1,
+                      WiFi.SSID(index).c_str(), WiFi.RSSI(index), WiFi.channel(index));
+      }
+    }
+    WiFi.scanDelete();
+    lastWiFiAttempt = 0;
+    Serial.println("scan complete; reconnecting in the background");
+    return;
+  }
+
+  const wl_status_t status = WiFi.status();
+  Serial.printf("status : %d (%s)\n", status, wifiStatusLabel(status));
   if (WiFi.status() == WL_CONNECTED) {
     Serial.printf("ssid   : %s\n", WiFi.SSID().c_str());
     Serial.printf("rssi   : %d dBm\n", WiFi.RSSI());
     Serial.printf("ip     : %s\n", WiFi.localIP().toString().c_str());
     Serial.printf("bssid  : %s\n", WiFi.BSSIDstr().c_str());
+  } else {
+    Serial.println("hint   : run 'wifi scan' and verify the exact SSID is listed");
   }
 }
 
 void cmdFirebase(const char *args) {
   (void)args;
-  Serial.printf("ready     : %s\n", Firebase.ready() ? "yes" : "no");
+  Serial.printf("started   : %s\n", firebaseStarted ? "yes" : "no (waiting for Wi-Fi)");
+  Serial.printf("ready     : %s\n", firebaseStarted && Firebase.ready() ? "yes" : "no");
   Serial.printf("uid       : %s\n", auth.token.uid.c_str());
   Serial.printf("base path : %s\n", deviceBasePath().c_str());
   Serial.printf("last error: %s (http %d)\n", firebaseData.errorReason().c_str(),
@@ -1533,14 +1559,77 @@ void handleCalibrationCommand(const char *line) {
 // ---------------------------------------------------------------------------
 // Q. Network
 // ---------------------------------------------------------------------------
+const char *wifiStatusLabel(wl_status_t status) {
+  switch (status) {
+    case WL_IDLE_STATUS:
+      return "idle";
+    case WL_NO_SSID_AVAIL:
+      return "SSID not found";
+    case WL_SCAN_COMPLETED:
+      return "scan complete";
+    case WL_CONNECTED:
+      return "connected";
+    case WL_CONNECT_FAILED:
+      return "connection failed (check password/security mode)";
+    case WL_CONNECTION_LOST:
+      return "connection lost";
+    case WL_DISCONNECTED:
+      return "disconnected";
+    case WL_NO_SHIELD:
+      return "Wi-Fi hardware unavailable";
+    default:
+      return "unknown";
+  }
+}
+
 void connectWiFi() {
   if (WiFi.status() == WL_CONNECTED) return;
   if (lastWiFiAttempt != 0 && millis() - lastWiFiAttempt < WIFI_RETRY_INTERVAL_MS) return;
 
+  if (lastWiFiAttempt != 0) {
+    const wl_status_t status = WiFi.status();
+    LOG_W(TAG_WIFI, "retry after status %d (%s)", status, wifiStatusLabel(status));
+  }
   lastWiFiAttempt = millis();
   LOG_I(TAG_WIFI, "connecting to %s", WIFI_SSID);
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+}
+
+bool firebaseConfigurationReady() {
+  return FIREBASE_API_KEY[0] != '\0' && FIREBASE_DATABASE_URL[0] != '\0' &&
+         FIREBASE_USER_EMAIL[0] != '\0' && FIREBASE_USER_PASSWORD[0] != '\0' &&
+         strcmp(FIREBASE_API_KEY, "YOUR_FIREBASE_WEB_API_KEY") != 0 &&
+         strstr(FIREBASE_DATABASE_URL, "YOUR_PROJECT") == nullptr &&
+         strcmp(FIREBASE_USER_EMAIL, "esp32-device@example.com") != 0 &&
+         strcmp(FIREBASE_USER_PASSWORD, "CHANGE_ME") != 0;
+}
+
+void startFirebaseIfReady() {
+  if (firebaseStarted || WiFi.status() != WL_CONNECTED) return;
+  if (!firebaseConfigurationReady()) {
+    if (!firebaseConfigurationErrorLogged) {
+      firebaseConfigurationErrorLogged = true;
+      LOG_E(TAG_FB, "configuration still contains an empty or sample value; update secrets.h");
+    }
+    return;
+  }
+
+  firebaseConfig.api_key = FIREBASE_API_KEY;
+  firebaseConfig.database_url = FIREBASE_DATABASE_URL;
+  firebaseConfig.token_status_callback = tokenStatusCallback;
+  // Bound a hung HTTPS call so it cannot stall past the app's offline window.
+  firebaseConfig.timeout.serverResponse = 10 * 1000;
+  auth.user.email = FIREBASE_USER_EMAIL;
+  auth.user.password = FIREBASE_USER_PASSWORD;
+
+  firebaseData.setBSSLBufferSize(2048, 1024);
+  firebaseData.setResponseSize(1024);
+  Firebase.reconnectWiFi(true);
+  Firebase.begin(&firebaseConfig, &auth);
+  firebaseStarted = true;
+
+  LOG_I(TAG_FB, "client started; base path %s", deviceBasePath().c_str());
 }
 
 // Bug 1, supporting half: keep NTP nagging until it succeeds, and say so once.
@@ -1716,25 +1805,17 @@ void setup() {
   if (WiFi.status() == WL_CONNECTED) {
     LOG_I(TAG_WIFI, "connected: %s, %d dBm", WiFi.localIP().toString().c_str(), WiFi.RSSI());
   } else {
-    LOG_W(TAG_WIFI, "unavailable; background retries continue (console still works)");
+    const wl_status_t status = WiFi.status();
+    LOG_W(TAG_WIFI, "unavailable after 20s: status %d (%s); background retries continue",
+          status, wifiStatusLabel(status));
+    LOG_I(TAG_WIFI, "run 'wifi scan' in the console to verify the exact SSID");
   }
 
   configTime(0, 0, "pool.ntp.org", "time.google.com");
-
-  firebaseConfig.api_key = FIREBASE_API_KEY;
-  firebaseConfig.database_url = FIREBASE_DATABASE_URL;
-  firebaseConfig.token_status_callback = tokenStatusCallback;
-  // Bound a hung HTTPS call so it cannot stall past the app's offline window.
-  firebaseConfig.timeout.serverResponse = 10 * 1000;
-  auth.user.email = FIREBASE_USER_EMAIL;
-  auth.user.password = FIREBASE_USER_PASSWORD;
-
-  firebaseData.setBSSLBufferSize(2048, 1024);
-  firebaseData.setResponseSize(1024);
-  Firebase.reconnectWiFi(true);
-  Firebase.begin(&firebaseConfig, &auth);
-
-  LOG_I(TAG_FB, "base path %s", deviceBasePath().c_str());
+  startFirebaseIfReady();
+  if (!firebaseStarted) {
+    LOG_I(TAG_FB, "startup deferred until Wi-Fi connects");
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1746,6 +1827,7 @@ void loop() {
   serviceCalibrationStream();
 
   connectWiFi();
+  startFirebaseIfReady();
   serviceTimeSync();
 
   const unsigned long now = millis();
@@ -1754,7 +1836,7 @@ void loop() {
     logHeartbeat();
   }
 
-  if (WiFi.status() != WL_CONNECTED || !Firebase.ready()) {
+  if (WiFi.status() != WL_CONNECTED || !firebaseStarted || !Firebase.ready()) {
     delay(20);
     return;
   }

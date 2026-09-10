@@ -152,10 +152,12 @@ private fun RecommendationPreviewCard(
                     fontSize = 13.sp
                 )
                 if (recommendation?.outsideTrainingFields?.isNotEmpty() == true) {
+                    val localizedFields = mutableListOf<String>()
+                    for (field in recommendation.outsideTrainingFields) {
+                        localizedFields += tr(publicFeatureLabel(field))
+                    }
                     Text(
-                        recommendation.outsideTrainingFields.joinToString(", ", prefix = "${tr("Check these readings")}: ") {
-                            tr(publicFeatureLabel(it))
-                        },
+                        localizedFields.joinToString(", ", prefix = "${tr("Check these readings")}: "),
                         color = MaterialTheme.colorScheme.error,
                         fontSize = 12.sp
                     )

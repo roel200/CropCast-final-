@@ -53,7 +53,7 @@ The console is serviced before the network check, so it keeps working with Wi-Fi
 | `scan` | I²C bus scan, annotating BH1750 at `0x23` / `0x5C` |
 | `npk [reg] [count]` | One Modbus transaction with a hex dump and a decoded error name. The fastest way to debug RS485. |
 | `time [sync]` | Clock state and the current hour slot; `time sync` re-arms NTP |
-| `wifi [reconnect]` | Network state; force a reconnect |
+| `wifi [reconnect\|scan]` | Network state; force a reconnect; list nearby 2.4 GHz SSIDs, channels, and signal strengths |
 | `fb` | Firebase ready state, UID, base path, last error and HTTP code |
 | `sensors` | List channels; `sensors ph off` marks one not wired for this session |
 | `log [level]` | Show or set verbosity: `off error warn info debug trace` |
